@@ -9,7 +9,7 @@ export interface Post {
 }
 
 export interface User {
-    id: Number;
+    id: number;
     name: string;
     email:string;
     posts?:string[];

@@ -9,7 +9,7 @@ export async function GET() {
 }
 
 export async function POST(request : Request) {
-    const body = request.json();
+    const body = await request.json();
     const newPost = {
         id : post.length + 1,
         ...body, 

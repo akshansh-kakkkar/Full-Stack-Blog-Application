@@ -10,7 +10,7 @@ export async function GET(request : Request,{params} : {params: {id : string}} )
     }
     const postWithAuthor = {
         ...post, 
-        author : users.find(user => user.id === post.authorId)
+        author : users.find(user => user.id === posts.authorId)
     }
     return NextResponse.json(postWithAuthor)
 
