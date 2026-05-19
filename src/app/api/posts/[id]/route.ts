@@ -1,14 +1,13 @@
 import { comment, post, users } from "@/app/data/mockData";
-import { error } from "console";
 import { NextResponse } from "next/server";
-import { stat } from "fs";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise <{id : string}> },
 ) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  const postId = parseInt(params.id);
+  const {id} = await params;
+  const postId = parseInt(id);
   const posts = post.find((p) => p.id === postId);
   if (isNaN(postId)) {
     return NextResponse.json({ error: "Invalid Post Id" }, { status: 400 });
