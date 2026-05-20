@@ -9,7 +9,7 @@ const GeistFont = Geist({
 export default function Page() {
   return (
   <div className="flex flex-col  gap-5 justify-center items-center h-screen">
-    <div className={`${GeistFont.className} text-[#191C1E] font-bold text-9xl`}>404</div>
+    <div className={`${GeistFont.className} text-[#191C1E] font-bold text-9xl animate-pulse`}>404</div>
     <div className={`${GeistFont.className} text-[#45464D] flex text-center flex-col text-2xl`}><div>Invalid URL</div>
      <div> It looks like something is broken :(</div>
     </div>

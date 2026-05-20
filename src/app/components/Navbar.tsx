@@ -82,24 +82,53 @@ export default function Navbar() {
         </motion.div>
       </div>
       <AnimatePresence>
-      {isOpen && (
-        <motion.div initial={{x:-100 , opacity:0}} animate={{x:0, opacity:1}} transition={{duration : 0.3}} exit={{x : -100, opacity:0}} className="bg-[#f7f9fb]  fixed mt-22 md:hidden border-[#c6c6cd] p-4 justify-center w-[200px]   text-center items-center mx-4 z-12 my-3 border rounded-md flex ">
-          <ul className={`flex flex-col gap-4 ${JetBrainsMono.className} text-[#191C1E] text-xl font-medium`}>
-            <li>
-              <Link href={"/"} className={`${Pathname === '/' ? "underline underline-offset-3 rounded-sm px-2" : ""}`}>Home</Link>
-            </li>
-            <li>
-              <Link href={"/posts"} className={`${Pathname === '/posts' ? "underline rounded-sm underline-offset-3 px-2 " : ""}`}>Feed</Link>
-            </li>
-            <li>
-              <Link href={"/about"} className={`${Pathname === '/about' ? "underline underline-offset-3 rounded-sm  px-2" : ""}`}>About</Link>
-            </li>
-            <li>
-              <Link className={`${Pathname === '/contact' ? "underline underline-offset-3  rounded-sm px-2": ""}`} href={"/contact"}>Contact</Link>
-            </li>
-          </ul>
-        </motion.div>
-      )}
+        {isOpen && (
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            exit={{ x: -100, opacity: 0 }}
+            className="bg-[#f7f9fb]  fixed mt-22 md:hidden border-[#c6c6cd] py-8 p-4 justify-center w-[200px]   text-center items-center mx-4 z-12 my-3 border rounded-md flex "
+          >
+            <div className="absolute flex top-4 right-4 bg-[#191C1E]  text-white rounded-full p-1 shadow" onClick={toggleOpen} ><X /></div>
+            <ul
+              className={`flex flex-col gap-4 ${JetBrainsMono.className} top-3 relative text-[#191C1E] text-xl font-medium`}
+            >
+              <li>
+                <Link
+                  href={"/"}
+                  className={`${Pathname === "/" ? "underline underline-offset-3 rounded-sm px-2" : ""}`}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={"/posts"}
+                  className={`${Pathname === "/posts" ? "underline rounded-sm underline-offset-3 px-2 " : ""}`}
+                >
+                  Feed
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={"/about"}
+                  className={`${Pathname === "/about" ? "underline underline-offset-3 rounded-sm  px-2" : ""}`}
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${Pathname === "/contact" ? "underline underline-offset-3  rounded-sm px-2" : ""}`}
+                  href={"/contact"}
+                >
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </motion.div>
+        )}
       </AnimatePresence>
     </>
   );
