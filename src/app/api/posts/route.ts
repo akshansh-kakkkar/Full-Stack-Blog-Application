@@ -1,17 +1,15 @@
-import {post, users, comment} from "@/app/data/mockData";
+import { Prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 
 export async function GET(request : Request) {
     await new Promise(resolve => setTimeout(resolve,1000))
     const url = new URL(request.url)
-    const authorId = url.searchParams.get('authorId');
-    const search = url.searchParams.get('search');
-    const sortBy = url.searchParams.get('sortBy') || "createdAt";
-    const order = url.searchParams.get('order');
+    const search = url.searchParams.get('search') || "";
     const page = parseInt(url.searchParams.get('page') || '1');
     const limit = parseInt(url.searchParams.get('limit') || "10");
-    let filteredPosts= post;
+    const skip = (page - 1) * limit;
+    
     if(authorId){
         const parsedAuthorId = parseInt(authorId);
         if(!isNaN(parsedAuthorId)){
