@@ -1,36 +1,8 @@
 import { NextResponse } from "next/server";
-import { users, post, comment,  } from '@/app/data/mockData';
-
+import { Prisma } from "@/lib/prisma";
 import { error } from "console";
-import { stat } from "fs";
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } },
-) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const userId = parseInt(params.id);
-  if (isNaN(userId)) {
-    return NextResponse.json({ error: "Invalid user" }, { status: 400 });
-  }
-  const User = users.find((u) => (u.id = userId));
-  if (!User) {
-    return NextResponse.json("User not found", { status: 404 });
-  }
-  const postsByUsers = post.filter((post) => post.authorId === userId);
-  const userComments = comment.filter((c) => c.authorId === userId);
-  const userDetails = {
-    ...users,
-    posts: postsByUsers,
-    comment: userComments,
-    stats: {
-      totalPosts: postsByUsers.length,
-      totalComments: userComments.length,
-    },
-  };
-  return NextResponse.json(userDetails);
-}
 
-export async function PUT(
+export async function GET(
   request: Request,
   { params }: { params: { id: string } },
 ) {
@@ -39,40 +11,111 @@ export async function PUT(
     if (isNaN(userId)) {
       return NextResponse.json({ error: "Invalid user Id" }, { status: 400 });
     }
-    const userIndex = users.findIndex((u) => u.id === userId);
-    if (userIndex === -1) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    const user = await Prisma.user.findUnique({
+      where : {
+        id : userId
+      },
+      include : {
+        posts : {
+          include : {
+            comments : true,
+            likes : true
+          }
+        },
+        comments : {
+          include : {
+            post : true
+          }
+        },
+        likes : {
+          include : {
+            post : true
+          }
+        },
+      }
+    })
+    if(!user){
+      return NextResponse.json({
+        error : "User not found",
+
+      }, 
+
+    {
+      status : 404
+    })
+  }
+    const userDetails = {
+      ...user,
+      stats : {
+        totalPosts : user.posts.length,
+        totalComments : user.posts.reduce((acc,post)=> acc + post.comments.length, 0),
+        totalLikes : user.likes.length
+      },
     }
-    const body = await request.json();
-    const updateUser = {
-      ...users[userIndex],
-      ...body,
-      id: userId,
-    };
-    users[userIndex] = updateUser;
-    return NextResponse.json(updateUser);
+    return NextResponse.json(userDetails)
+    
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 400 },
     );
   }
+
 }
 
-export async function DELETE(request:Request, {params} : {params : {id : string}}) {
-    const userId = parseInt(params.id);
+export async function PUT(request:Request, {params} : {params : {id : string}}) {
+  try{  
+  const userId = parseInt(params.id);
     if(isNaN(userId)){
         return NextResponse.json({error : "Invalid User Id"}, {status : 400})
     }
-    const userIndex = users.findIndex(U => U.id === userId);
-    if(userIndex === -1){
-       return NextResponse.json( {error : "User not found"},
-        {status : 404})
+   const body = await request.json();
+   const updatedUser = await Prisma.user.update({
+    where : {
+      id : userId
+    },
+    data : {
+      ...body
     }
-    const deleteUser = users.splice(userIndex,1)[0];
+   })
+   return NextResponse.json(updatedUser)
+  }
+  catch(error){
     return NextResponse.json({
-        message : "User delted successfully",
-        user : deleteUser
+      error : "Something Went Wrong"
+      
+    }, {status : 500})
+  }
+};
+
+export async function DELETE(request : Request, {params} : {params : {id : string}}){
+  try{
+    const userId  = parseInt(
+      params.id
+    );
+    if(isNaN(userId)){
+      return NextResponse.json({
+        error: "Invalid user id"
+      },
+    {
+      status : 400
     })
+    }
+    await Prisma.user.delete({
+      where : {
+        id : userId
+      },
+
+    })
+    return NextResponse.json({
+      message  : "User Deleted Successfully"
+    })
+  }
+  catch(error){
+    return NextResponse.json(
+      {error : "Something Went Wrong"},
+      {status : 500}
+    )
+  }
 }
 
