@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { Prisma } from "@/lib/prisma";
-import { error } from "console";
-
+import bcrypt from 'bcryptjs'
 export async function GET(
   request: Request,
   { params }: { params: { id: string } },
