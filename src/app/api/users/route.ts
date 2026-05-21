@@ -1,9 +1,9 @@
-import { Prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 export async function GET() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  const users = await Prisma.user.findMany({
+  const users = await prisma.user.findMany({
     select : {
       id : true,
       name : true,
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    const existingUser =await Prisma.user.findUnique({
+    const existingUser =await prisma.user.findUnique({
         where : {
             email : body.email
         }
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     }
 
     const hashedPassword = await bcrypt.hash(body.password,10)
-    const newUser = await Prisma.user.create({
+    const newUser = await prisma.user.create({
         data : {
             name : body.name,
             email : body.email,

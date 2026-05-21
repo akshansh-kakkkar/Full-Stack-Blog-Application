@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -12,7 +12,7 @@ export async function GET(
     return NextResponse.json({ error: "Invalid Post Id" }, { status: 400 });
   }
 
-  const Post = await Prisma.post.findUnique({
+  const Post = await prisma.post.findUnique({
     where: {
       id: postId,
     },
@@ -55,7 +55,7 @@ export async function PUT(
 
     const body = await request.json();
 
-    const updatedPost = await Prisma.post.update({
+    const updatedPost = await prisma.post.update({
       where: {
         id: postId,
       },
@@ -92,7 +92,7 @@ export async function DELETE(
       { status: 400 },
     );
   }
-  await Prisma.post.delete({
+  await prisma.post.delete({
     where: {
       id: postId,
     },

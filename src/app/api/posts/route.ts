@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const limit = parseInt(url.searchParams.get("limit") || "10");
   const skip = (page - 1) * limit;
 
-  const posts = await Prisma.post.findMany({
+  const posts = await prisma.post.findMany({
     where: {
       OR: [
         {
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
       },
     
   });
-  const totalPosts = await Prisma.post.count();
+  const totalPosts = await prisma.post.count();
   return NextResponse.json({
     posts, 
     pagenation : {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: Request,
@@ -10,7 +10,7 @@ export async function GET(
   if (isNaN(postId)) {
     return NextResponse.json({ error: "Not Found" }, { status: 400 });
   }
-  const Post = await Prisma.post.findUnique({
+  const Post = await prisma.post.findUnique({
     where: {
       id: postId,
     },
@@ -53,7 +53,7 @@ export async function POST(
         { status: 400 },
       );
     }
-    const existingPost = await Prisma.post.findUnique({
+    const existingPost = await prisma.post.findUnique({
         where : {
             id : postId
         }
@@ -66,7 +66,7 @@ export async function POST(
         })
     }
     const newComment = 
-        await Prisma.comment.create({
+        await prisma.comment.create({
             data : {
                 content : body.content,
                 postId,

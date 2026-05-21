@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { Prisma } from "@/lib/prisma";
-import bcrypt from 'bcryptjs'
+import { prisma } from "@/lib/prisma";
 export async function GET(
   request: Request,
   { params }: { params: { id: string } },
@@ -10,7 +9,7 @@ export async function GET(
     if (isNaN(userId)) {
       return NextResponse.json({ error: "Invalid user Id" }, { status: 400 });
     }
-    const user = await Prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where : {
         id : userId
       },
@@ -69,7 +68,7 @@ export async function PUT(request:Request, {params} : {params : {id : string}}) 
         return NextResponse.json({error : "Invalid User Id"}, {status : 400})
     }
    const body = await request.json();
-   const updatedUser = await Prisma.user.update({
+   const updatedUser = await prisma.user.update({
     where : {
       id : userId
     },
@@ -100,7 +99,7 @@ export async function DELETE(request : Request, {params} : {params : {id : strin
       status : 400
     })
     }
-    await Prisma.user.delete({
+    await prisma.user.delete({
       where : {
         id : userId
       },

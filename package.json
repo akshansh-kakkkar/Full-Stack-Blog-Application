@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
+    "@better-auth/cli": "^1.4.21",
     "@prisma/client": "^6.19.3",
     "axios": "^1.16.1",
     "bcryptjs": "^3.0.3",

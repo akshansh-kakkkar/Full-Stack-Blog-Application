@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const postId = searchParams.get("postId");
   const limit = searchParams.get("limit");
   const parsedLimit = limit ? parseInt(limit) : undefined;
-  const comments = await Prisma.comment.findMany({
+  const comments = await prisma.comment.findMany({
     where: {
       ...(authorId && {
         authorId: parseInt(authorId),
