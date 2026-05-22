@@ -20,7 +20,7 @@ model User {
   posts    Post[]
   password String?
   likes    Like[]
-  comments  Comment[]
+  comments Comment[]
   accounts Account[]
   sessions Session[]
 }
@@ -61,27 +61,27 @@ model Like {
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  accountId String
-  providerId String
-  accessToken String?
-  refreshToken String?
-  userId            Int
-  idToken String?
-  accessTokenExpiresAt DateTime?
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  userId                Int
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
   refreshTokenExpiresAt DateTime?
-  scope String?
-  passoword String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scope                 String?
+  passoword             String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  token String   @unique
-  userId       Int
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   ipAddress String?
   userAgent String?
   createdAt DateTime @default(now())
@@ -90,10 +90,10 @@ model Session {
 }
 
 model Verification {
-  id String @id @default(cuid())
+  id         String   @id @default(cuid())
   identifier String
-  value String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
