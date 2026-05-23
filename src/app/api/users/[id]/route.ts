@@ -92,7 +92,7 @@ export async function PUT(
     if (isNaN(userId)) {
       return NextResponse.json({ error: "Invalid User Id" }, { status: 400 });
     }
-        if (session.user.id !== userId) {
+        if (Number(session.user.id) !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const body = await request.json();
@@ -139,7 +139,7 @@ export async function DELETE(
         },
       );
     }
-    if (session.user.id !== userId) {
+    if (Number(session.user.id) !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     await prisma.user.delete({

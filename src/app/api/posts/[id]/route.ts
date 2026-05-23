@@ -85,7 +85,7 @@ export async function PUT(
         { status: 404 },
       );
     }
-    if (existingPost.authorId !== session.user.id) {
+    if (existingPost.authorId !== Number(session.user.id)) {
       return NextResponse.json(
         {
           error: "Forbidden",
@@ -146,7 +146,7 @@ export async function DELETE(
     if (!existingPost) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
-    if (existingPost.authorId !== session.user.id) {
+    if (existingPost.authorId !== Number(session.user.id)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     await prisma.post.delete({
