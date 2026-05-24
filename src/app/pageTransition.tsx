@@ -23,7 +23,7 @@ export default function Loading({ children }: { children: any }) {
   return (
     <>
       {loading ? (
-        <div className="flex w-full h-screen justify-center items-center">
+        <div className="flex w-full flex-1 justify-center items-center">
           <div className="w-[600px] flex flex-col items-center">
             <div className="flex justify-center items-end gap-3 mb-8">
               <motion.div animate={{opacity : [1, 0.1,1]}} transition={{duration:1, repeat:Infinity}} className="w-3 h-4 rounded-full   bg-[#2D2D2D]" />

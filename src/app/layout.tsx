@@ -13,13 +13,10 @@ export default function RootLayout({
     <html lang="en" className={`h-full antialiased`}>
       <body className="min-h-screen flex flex-col">
         <Navbar />
-        <div className="flex-1 min-h-screen">
-          <Loading>
-        <main >
+                 <Loading>
+
         {children}
-        </main>
         </Loading>
-        </div>
         <Footer />
       </body>
     </html>
