@@ -1,62 +1,181 @@
-"use client"
-import { AnimatePresence, spring } from "framer-motion"
-import { LayoutDashboard, UserRoundCog, UserRoundPen, X } from "lucide-react"
-import { useState } from "react"
-import {motion} from 'framer-motion'
-import { Libertinus_Sans, Poppins } from "next/font/google"
-import Link from "next/link"
+"use client";
+import { AnimatePresence, spring } from "framer-motion";
+import {
+    CircleUser,
+  Cog,
+  ContactRound,
+  LayoutDashboard,
+  LogOut,
+  OctagonAlert,
+  Palette,
+  Settings,
+  ShieldUser,
+  UserRoundCog,
+  UserRoundPen,
+  X,
+} from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Libertinus_Sans, Poppins } from "next/font/google";
+import Link from "next/link";
 const libretinusSans = Libertinus_Sans({
-    subsets:['latin'],
-    weight : ["700"]
-})
+  subsets: ["latin"],
+  weight: ["700"],
+});
 const poppins = Poppins({
-    subsets:["latin"],
-    weight:["400"]
-})
-export default function AppDrawer(){
-    const [open, setOpen] = useState(false)
-    return(
-        <>
-        <button onClick={()=>{setOpen(true)}} className="fixed bottom-5 left-5 z-30 bg-white border p-2 block  rounded-full shadow-lg md:hidden" >
-            <LayoutDashboard size={36} />
-            </button>
-            <AnimatePresence>
-                {
-                    open && (
-                        <motion.div className="fixed inset-0 bg-black/20 backdrop-blur-xs z-40" onClick={()=> setOpen(false)} initial={{opacity : 0}} animate={{opacity:1}} exit={{opacity:0}}>
-                            <motion.div transition={{damping:25, stiffness:220, type:spring}} animate={{y:0}} exit={{y:"100%%"}} initial={{y:"100%"}}  className="right-0 left-0 bg-white overflow-y-auto  h-[65vh] bottom-0 fixed z-50 p-6 rounded-t-3xl">
-                                <div className="flex border-b pb-5 justify-between text-center items-center text-2xl">
-                                    <span className={`${libretinusSans.className}`}>Profile</span> 
-                                    <span onClick={()=> setOpen(false)} className="bg-white border-1 p-2 rounded-full shadow-lg">
-                                        <X strokeWidth={2} />
-                                    </span>
-                                </div>
-                                <div className="mt-8 mx-5">
-                                    <div className="flex flex-col gap-5">
-                                        <div className="flex gap-2">
-                                        <span><UserRoundCog /></span>
-                                        <span className={`text-xl ${libretinusSans.className}`}>User Setting</span>
-                                    </div>
-                                    <div className="flex justify-start items-start">
-                                        <div className="flex flex-col text-center justify-center items-center gap-1 text-sm">
-                                            <Link className="border-1 rounded-full p-2 bg-white shadow-lg" href={'/profile/edit'}><span >
-                                                <UserRoundPen />
-                                            </span></Link>
-                                            <span className={`${poppins.className} text-sm`}>Edit user</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center items-center flex-col text-center text-sm gap-1">
-                                        <Link href="/profile/picture"></Link>
-                                        <span className={`${poppins.className} text-xs`}>Avatar</span>
-                                    </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </motion.div>
-                    )
-                }
-            </AnimatePresence>
-        
-        </>
-    )
+  subsets: ["latin"],
+  weight: ["400"],
+});
+export default function AppDrawer() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        onClick={() => {
+          setOpen(true);
+        }}
+        className="fixed bottom-5 left-5 z-30 bg-white border p-2 block  rounded-full shadow-lg md:hidden"
+      >
+        <LayoutDashboard size={36} />
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="fixed inset-0 bg-black/20 backdrop-blur-xs z-40"
+            onClick={() => setOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              transition={{ damping: 25, stiffness: 220, type: spring }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%%" }}
+              initial={{ y: "100%" }}
+              className="right-0 left-0 bg-white overflow-y-auto  h-[65vh] bottom-0 fixed z-50 p-6 rounded-t-3xl"
+            >
+              <div className="flex border-b pb-5 justify-between text-center items-center text-2xl">
+                <span className={`${libretinusSans.className}`}>Profile</span>
+                <span
+                  onClick={() => setOpen(false)}
+                  className="bg-white border-1 p-2 rounded-full shadow-lg"
+                >
+                  <X strokeWidth={2} />
+                </span>
+              </div>
+              <div className="mt-8 mx-5">
+                <div className="flex flex-col gap-5">
+                  <div className="flex item-center gap-2">
+                    <span>
+                      <UserRoundCog />
+                    </span>
+                    <span className={`text-2xl ${libretinusSans.className}`}>
+                      User Setting
+                    </span>
+                  </div>
+                  <div className="flex justify-start gap-12  items-center">
+                    <div className="flex flex-col text-center justify-center items-center gap-2 text-sm">
+                      <Link
+                        className="border flex justify-center items-center text-center rounded-full p-2 bg-white shadow-lg"
+                        href={"/profile/edit"}
+                      >
+                        <span>
+                          <UserRoundPen size={32} strokeWidth={2} />
+                        </span>
+                      </Link>
+                      <span className={`${poppins.className} text-sm`}>
+                        Edit user
+                      </span>
+                    </div>
+                    <div className="flex justify-center items-center flex-col text-center  gap-2">
+                      <Link
+                        href="/profile/picture"
+                        className="border rounded-full flex  items-center text-center justify-center p-2 bg-white shadow-lg"
+                      >
+                        <span>
+                          <ContactRound size={32} strokeWidth={2} />
+                        </span>
+                      </Link>
+                      <span className={`${poppins.className} text-sm`}>
+                        Avatar
+                      </span>
+                    </div>
+                    <div className="flex justify-center items-center flex-col text-center gap-2">
+                      <Link
+                        href={"/profile/security"}
+                        className="border rounded-full flex items-center text-center p-2 bg-white shadow-lg"
+                      >
+                        <span>
+                          <ShieldUser size={32} strokeWidth={2} />
+                        </span>
+                      </Link>
+                      <span className={`${poppins.className} text-sm`}>
+                        Security
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 mx-5">
+                <div className="flex flex-col gap-5">
+                  <div className="flex gap-2 items-center">
+                    <span>
+                      <Cog />
+                    </span>
+                    <span className={`text-2xl ${libretinusSans.className}`}>
+                      Others{" "}
+                    </span>
+                  </div>
+                  <div className="flex justify-start items-center  text-center gap-5">
+                    <div className="flex flex-col items-center justify-center gap-2">
+                    <Link href={"/profile/appearance"} className="border flex-col rounded-full flex items-center text-center p-2 bg-white shadow-lg">
+                    <span><Palette  size={32}/></span>
+                    
+                    </Link>
+                    <span className={`text-sm ${poppins.className}`}>Appearance</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 justify-center">
+                    <Link href={'/profile/accountdeletion'} className="border flex-col rounded-full flex items-center p-2 text-center bg-white shadow-lg ">
+                    <span><OctagonAlert size={32} /></span>
+                    </Link>
+                    <span className={`${poppins.className} text-sm`}>Danger zone</span>
+                  </div>
+     
+                  </div>
+
+                </div>
+                                <div className="flex mt-6  flex-col gap-6">
+                  <div className="flex gap-2 items-center">
+                    <span>
+                      <Settings />
+                    </span>
+                    <span className={`text-2xl ${libretinusSans.className}`}>
+                      Settings{" "}
+                    </span>
+                  </div>
+                  <div className="flex justify-start items-center mx-4  text-center gap-12">
+                    <div className="flex flex-col items-center justify-center gap-2">
+                    <Link href={"/profile/appearance"} className="border flex-col rounded-full flex items-center text-center p-2 bg-white shadow-lg">
+                    <span><LogOut className="text-red-500 rotate-180"  size={32}/></span>
+                    
+                    </Link>
+                    <span className={`text-sm ${poppins.className}`}>SignOut</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 justify-center">
+                    <Link href={'/profile/accountdeletion'} className="border flex-col rounded-full flex items-center p-2 text-center bg-white shadow-lg ">
+                    <span><CircleUser size={32}  /></span>
+                    </Link>
+                    <span className={`${poppins.className} text-sm`}>Account</span>
+                  </div>
+     
+                  </div>
+
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 }
