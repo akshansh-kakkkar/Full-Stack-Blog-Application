@@ -37,6 +37,7 @@ const JetBrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 const SideBar = () => {
+
   const pathName = usePathname();
   const router = useRouter();
   return (

@@ -8,7 +8,7 @@ export async function GET(
   try {
     const { id } = await params;
     const userId = id;
-    if (!userId){
+    if (!userId) {
       return NextResponse.json({ error: "Invalid user Id" }, { status: 400 });
     }
     const user = await prisma.user.findUnique({
@@ -93,7 +93,7 @@ export async function PUT(
     if (!userId) {
       return NextResponse.json({ error: "Invalid User Id" }, { status: 400 });
     }
-        if (session.user.id !== userId) {
+    if (session.user.id !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const body = await request.json();
@@ -103,12 +103,12 @@ export async function PUT(
       },
       data: {
         name: body.name,
-        gitHubUrl: body.github,
-        instagramUrl : body.Instagram,
-        linkdinUrl : body.Linkdin,
-        bio : body.bio,
-        websiteUrl : body.website,
-        location : body.location,
+        github: body.github,
+        Instagram: body.Instagram,
+        Linkdin: body.Linkdin,
+        bio: body.bio,
+        website: body.website,
+        location: body.location,
       },
     });
     return NextResponse.json(updatedUser);
