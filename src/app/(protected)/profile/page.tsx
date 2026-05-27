@@ -1,7 +1,9 @@
 export default function overView() {
   return (
-    <div>
-      <div>hey</div>
+    <div className="h-screen bg-[#F7F9FB">
+      <div>
+
+      </div>
     </div>
   );
 }

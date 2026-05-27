@@ -7,13 +7,13 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const userId = parseInt(id);
-    if (isNaN(userId)) {
+    const userId = id;
+    if (!userId){
       return NextResponse.json({ error: "Invalid user Id" }, { status: 400 });
     }
     const user = await prisma.user.findUnique({
       where: {
-        id: String(userId),
+        id: userId,
       },
       select: {
         id: true,
@@ -71,11 +71,12 @@ export async function GET(
     return NextResponse.json(user);
   } catch (error) {
     return NextResponse.json(
-      { error: "Something went wrong while creating a user" },
+      { error: "Something went wrong while fetching a user" },
       { status: 400 },
     );
   }
 }
+
 
 export async function PUT(
   request: Request,
@@ -87,22 +88,27 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const { id } = await params;
-    const userId = parseInt(id);
+    const userId = id;
 
-    if (isNaN(userId)) {
+    if (!userId) {
       return NextResponse.json({ error: "Invalid User Id" }, { status: 400 });
     }
-        if (Number(session.user.id) !== userId) {
+        if (session.user.id !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const body = await request.json();
     const updatedUser = await prisma.user.update({
       where: {
-        id: String(userId),
+        id: userId,
       },
       data: {
         name: body.name,
-        email: body.email,
+        gitHubUrl: body.github,
+        instagramUrl : body.Instagram,
+        linkdinUrl : body.Linkdin,
+        bio : body.bio,
+        websiteUrl : body.website,
+        location : body.location,
       },
     });
     return NextResponse.json(updatedUser);
@@ -116,6 +122,8 @@ export async function PUT(
   }
 }
 
+
+
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -127,9 +135,9 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    const userId = parseInt(id);
+    const userId = id;
 
-    if (isNaN(userId)) {
+    if (!userId) {
       return NextResponse.json(
         {
           error: "Invalid user id",
@@ -139,12 +147,12 @@ export async function DELETE(
         },
       );
     }
-    if (Number(session.user.id) !== userId) {
+    if (session.user.id !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     await prisma.user.delete({
       where: {
-        id: String(userId),
+        id: userId,
       },
     });
     return NextResponse.json({

@@ -39,7 +39,7 @@ export default function Loading({ children }: { children: any }) {
               <motion.div
                 animate={{ opacity: [1, 0.1, 1] }}
                 transition={{ duration: 1, repeat: Infinity }}
-                className="w-3 h-10 rounded-full bg-black"
+                className="w-3 h-10 rounded-full bg-[#2D2D2D]"
               />
               <motion.div
                 animate={{ opacity: [1, 0.1, 1] }}

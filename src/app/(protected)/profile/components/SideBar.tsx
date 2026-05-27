@@ -40,7 +40,7 @@ const SideBar = () => {
   const pathName = usePathname();
   const router = useRouter();
   return (
-    <div className="w-[280px] md:block hidden fixed left-0 top-[82px] bg-white h-[90vh] border-r ]">
+    <div className="w-[280px] md:block hidden fixed left-0 top-[82px] bg-white h-[90vh] border-r">
       <div className="flex gap-2 flex-col">
         <div
           className={`mt-12 ml-7 text-lg text-[#76777D] items-center capitalize uppercase flex gap-3 ${Libertinus.className} `}
@@ -80,7 +80,7 @@ const SideBar = () => {
           <span>
             <UserRoundPen />
           </span>
-          <span>Edit User</span>
+          <span>Edit Profile</span>
         </Link>
         <Link
           href={"/profile/picture"}

@@ -92,7 +92,7 @@ export default function AppDrawer() {
                         </span>
                       </Link>
                       <span className={`${poppins.className} text-sm`}>
-                        Edit user
+                        Edit Profile
                       </span>
                     </div>
                     <div className="flex justify-center items-center flex-col text-center  gap-2">

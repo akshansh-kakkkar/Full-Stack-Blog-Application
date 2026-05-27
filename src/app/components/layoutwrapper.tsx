@@ -11,7 +11,7 @@ export default function LayoutWrapper({
 }){
     const pathName = usePathname();
     const isAuthpage = pathName === "/auth"
-    const profile = pathName === "/profile"
+    const profile = pathName === "/profile" || "/profile/edit"
     return(
         <div className="min-h-screen flex flex-col">
             {!isAuthpage && <Navbar />}

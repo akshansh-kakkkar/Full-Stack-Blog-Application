@@ -14,19 +14,25 @@ datasource db {
 }
 
 model User {
-  id       String       @id @default(cuid())
-  name     String
-  email    String    @unique
-  emailVerified Boolean @default(false)
-  image  String?
-password String?
-createdAt  DateTime @default(now())
-updatedAt DateTime @updatedAt
-  posts    Post[]
-  likes    Like[]
-  comments Comment[]
-  accounts Account[]
-  sessions Session[]
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  posts         Post[]
+  likes         Like[]
+  comments      Comment[]
+  accounts      Account[]
+  github        String?
+  Instagram     String?
+  Linkdin       String?
+  website       String?
+  bio           String?   @db.Text
+  sessions      Session[]
+  location      String?
 }
 
 model Post {
@@ -75,7 +81,7 @@ model Account {
   accessTokenExpiresAt  DateTime?
   refreshTokenExpiresAt DateTime?
   scope                 String?
-  password             String?
+  password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)

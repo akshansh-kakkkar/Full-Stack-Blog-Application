@@ -10,7 +10,7 @@ export const createPostSchema = z.object({
     .min(10, "content too short"),
     image : z
     .string()
-    .url("Invalid iamge url")
+    .url("Invalid image url")
 })
 
 export const updatePostSchema = z.object({

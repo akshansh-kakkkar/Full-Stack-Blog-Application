@@ -76,17 +76,17 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {session ? (
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger >
                   <div className="h-10 w-20 cursor-pointer  rounded-full gap-auto flex-row   bg-white shadow-lg border  font-semibold flex items-center justify-between">
                   <span className="bg-[#00687A] rounded-full  h-10 w-10 text-center text-white flex items-center justify-center text-white">{session.user.name?.charAt(0).toUpperCase()}</span>
-                  <button className="-translate-x-2 cursor-pointer border-1 rounded-full" >
+                  <span className="-translate-x-2 cursor-pointer border-1 rounded-full" >
                     <ChevronDown size={24}/>
-                  </button>
+                  </span>
                   </div>
                 </DropdownMenuTrigger>
                 
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem >
                     <Link
                       href={"/dashboard"}
                       className="flex justify-between items-center gap-5"
@@ -97,7 +97,7 @@ export default function Navbar() {
                       <span className={`${JetBrainsMono.className}`}>Dashboard</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem >
                     <Link
                       href={"/profile"}
                       className="flex justify-center items-center gap-5"
