@@ -1,12 +1,17 @@
 "use client";
-import { CircleUser, LayoutDashboard, LogOut, Menu, X } from "lucide-react";
+import { ChevronDown, ChevronDownCircle, CircleUser, EllipsisVertical, Grip, LayoutDashboard, LogOut, X } from "lucide-react";
 import Link from "next/link";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSession, signOut } from "@/lib/auth-client";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 const GeistFont = Geist({
   subsets: ["latin"],
 });
@@ -14,7 +19,7 @@ const JetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 export default function Navbar() {
-  const {data:session} =useSession();
+  const { data: session } = useSession();
 
   const [isOpen, setIsOpen] = useState(false);
   const Pathname = usePathname();
@@ -67,108 +72,185 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
-    <div className="flex gap-5 items-center flex-row-reverse">
-        <div className="flex items-center gap-4">
-          {session   ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild >
-                <button className="h-10 w-10 rounded-full bg-[#00687A] text-white font-semibold flex items-center justify-center">{session.user.name?.charAt(0).toUpperCase()}</button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link href={'/dashboard'} className="flex justify-between items-center gap-5"><span><LayoutDashboard /></span> <span>Dashboard</span></Link>
-                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                  <Link href={'/profile'} className="flex justify-center items-center gap-5"><span><CircleUser /></span><span>Profile</span></Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={async()=> {await signOut()}}>
-                  <div className="flex justify-center items-center gap-5">
-                  <span><LogOut/></span>
-                  <span>Logout</span>
+        <div className="flex gap-5 items-center flex-row">
+          <div className="flex items-center gap-4">
+            {session ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="h-10 w-20 cursor-pointer  rounded-full gap-auto flex-row   bg-white shadow-lg border  font-semibold flex items-center justify-between">
+                  <span className="bg-[#00687A] rounded-full  h-10 w-10 text-center text-white flex items-center justify-center text-white">{session.user.name?.charAt(0).toUpperCase()}</span>
+                  <button className="-translate-x-2 cursor-pointer border-1 rounded-full" >
+                    <ChevronDown size={24}/>
+                  </button>
                   </div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ):(<>
-            <motion.div className="md:block hidden" whileTap={{scale:1.05}} whileHover={{scale:0.90}}><Link href={'/auth?mode=signup'} className="bg-[#191C1E]  text-white px-4 py-2 rounded-sm">SignUp</Link></motion.div>
-            <motion.div className="md:block hidden" whileTap={{scale:1.05}} whileHover={{scale:0.90}}><Link href={'/auth?mode=login'} className="outline-[#191C1E]  outline-2 -outline-offset-2  text-[#191C1E] px-4 py-2 rounded-sm">Login</Link></motion.div>
-         </>
-         )}
-        </div>
-        <div>
-        <motion.div
-          exit={{ rotate: 0 }}
-          animate={{ rotate: isOpen ? 360 : 0 }}
-          initial={{ rotate: 0 }}
-          className="block md:hidden"
-          onClick={toggleOpen}
-        >
-          {isOpen ? <X /> : <Menu />}
-        </motion.div>
-      </div>
-      <AnimatePresence>
-        {isOpen && (
-                  <div onClick={()=> setIsOpen(false)} className="fixed inset-0  z-20">
-
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            exit={{ x: -100, opacity: 0 }}
-            className="bg-[#f7f9fb]   left-0  fixed mt-24 md:hidden border-[#c6c6cd] py-8 p-4 justify-center w-[220px]   text-center items-center mx-4 z-12 my-3 border rounded-md flex "
-          >
-            <div className="absolute flex top-4 left-4 bg-[#191C1E]  text-white rounded-full p-1 shadow" onClick={toggleOpen} ><X /></div>
-            <ul
-              className={`flex flex-col gap-4 ${JetBrainsMono.className} top-3 relative text-[#191C1E] text-xl font-medium`}
-            >
-              <li>
-                <Link
-                  href={"/"}
-                  className={`${Pathname === "/" ? "underline underline-offset-3 rounded-sm px-2" : ""}`}
+                </DropdownMenuTrigger>
+                
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href={"/dashboard"}
+                      className="flex justify-between items-center gap-5"
+                    >
+                      <span>
+                        <LayoutDashboard />
+                      </span>{" "}
+                      <span className={`${JetBrainsMono.className}`}>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href={"/profile"}
+                      className="flex justify-center items-center gap-5"
+                    >
+                      <span>
+                        <CircleUser />
+                      </span>
+                      <span className={`${JetBrainsMono.className}`}>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={async () => {
+                      await signOut();
+                    }}
+                  >
+                    <div className="flex justify-center items-center gap-5">
+                      <span>
+                        <LogOut className="text-red-500" />
+                      </span>
+                      <span className={`text-red-500 ${JetBrainsMono.className}`}>Logout</span>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <motion.div
+                  className="md:block hidden"
+                  whileTap={{ scale: 1.05 }}
+                  whileHover={{ scale: 0.9 }}
                 >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={"/posts"}
-                  className={`${Pathname === "/posts" ? "underline rounded-sm underline-offset-3 px-2 " : ""}`}
+                  <Link
+                    href={"/auth?mode=signup"}
+                    className="bg-[#191C1E]  text-white px-4 py-2 rounded-sm"
+                  >
+                    SignUp
+                  </Link>
+                </motion.div>
+                <motion.div
+                  className="md:block hidden"
+                  whileTap={{ scale: 1.05 }}
+                  whileHover={{ scale: 0.9 }}
                 >
-                  Feed
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={"/about"}
-                  className={`${Pathname === "/about" ? "underline underline-offset-3 rounded-sm  px-2" : ""}`}
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`${Pathname === "/contact" ? "underline underline-offset-3  rounded-sm px-2" : ""}`}
-                  href={"/contact"}
-                >
-                  Contact
-                </Link>
-              </li>
-               
-                {!session && (
-                   <>
-                   <div className="flex gap-4">
-            <motion.div whileTap={{scale:1.05}} whileHover={{scale:0.90}}><Link href={'/auth?mode=signup'} className="bg-[#191C1E]  text-white px-2 py-1 rounded-sm">SIGNUP</Link></motion.div>
-            <motion.div  whileTap={{scale:1.05}} whileHover={{scale:0.90}}><Link href={'/auth?mode=login'} className="outline-[#191C1E]  outline-2  text-[#191C1E] px-3 py-1 rounded-sm">LOGIN</Link></motion.div>
-      </div>
-      </>)}
-         
-            </ul>
-          </motion.div>
+                  <Link
+                    href={"/auth?mode=login"}
+                    className="outline-[#191C1E]  outline-2 -outline-offset-2  text-[#191C1E] px-4 py-2 rounded-sm"
+                  >
+                    Login
+                  </Link>
+                </motion.div>
+              </>
+            )}
           </div>
-        )}
-      </AnimatePresence>
-      </div>
-      
+          <div>
+            <motion.div
+              exit={{ rotate: 0 }}
+              animate={{ rotate: isOpen ? 90 : 0 }}
+              initial={{ rotate: 0 }}
+              className="block md:hidden"
+              onClick={toggleOpen}
+            >
+              {isOpen ? <EllipsisVertical/> : <EllipsisVertical />}
+            </motion.div>
+          </div>
+          <AnimatePresence>
+            {isOpen && (
+              <div
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0  z-20"
+              >
+                <motion.div
+                  initial={{ x: -100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  exit={{ x: -100, opacity: 0 }}
+                  className="bg-[#f7f9fb]   left-0  fixed mt-24 md:hidden border-[#c6c6cd] py-8 p-4 justify-center w-[220px]   text-center items-center mx-4 z-12 my-3 border rounded-md flex "
+                >
+                  <div
+                    className="absolute flex top-4 left-4 bg-[#191C1E]  text-white rounded-full p-1 shadow"
+                    onClick={toggleOpen}
+                  >
+                    <X />
+                  </div>
+                  <ul
+                    className={`flex flex-col gap-4 ${JetBrainsMono.className} top-3 relative text-[#191C1E] text-xl font-medium`}
+                  >
+                    <li>
+                      <Link
+                        href={"/"}
+                        className={`${Pathname === "/" ? "underline underline-offset-3 rounded-sm px-2" : ""}`}
+                      >
+                        Home
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={"/posts"}
+                        className={`${Pathname === "/posts" ? "underline rounded-sm underline-offset-3 px-2 " : ""}`}
+                      >
+                        Feed
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={"/about"}
+                        className={`${Pathname === "/about" ? "underline underline-offset-3 rounded-sm  px-2" : ""}`}
+                      >
+                        About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className={`${Pathname === "/contact" ? "underline underline-offset-3  rounded-sm px-2" : ""}`}
+                        href={"/contact"}
+                      >
+                        Contact
+                      </Link>
+                    </li>
+
+                    {!session && (
+                      <>
+                        <div className="flex gap-4">
+                          <motion.div
+                            whileTap={{ scale: 1.05 }}
+                            whileHover={{ scale: 0.9 }}
+                          >
+                            <Link
+                              href={"/auth?mode=signup"}
+                              className="bg-[#191C1E]  text-white px-2 py-1 rounded-sm"
+                            >
+                              SIGNUP
+                            </Link>
+                          </motion.div>
+                          <motion.div
+                            whileTap={{ scale: 1.05 }}
+                            whileHover={{ scale: 0.9 }}
+                          >
+                            <Link
+                              href={"/auth?mode=login"}
+                              className="outline-[#191C1E]  outline-2  text-[#191C1E] px-3 py-1 rounded-sm"
+                            >
+                              LOGIN
+                            </Link>
+                          </motion.div>
+                        </div>
+                      </>
+                    )}
+                  </ul>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </>
   );
