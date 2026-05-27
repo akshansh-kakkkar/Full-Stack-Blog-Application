@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence, spring } from "framer-motion";
 import {
-    CircleUser,
+  CircleUser,
   Cog,
   ContactRound,
   LayoutDashboard,
@@ -31,7 +31,7 @@ const poppins = Poppins({
 export default function AppDrawer() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
   return (
     <>
       <button
@@ -80,11 +80,15 @@ export default function AppDrawer() {
                   <div className="flex justify-start gap-12  items-center">
                     <div className="flex flex-col transition-all duration-300 text-center justify-center items-center gap-2 text-sm">
                       <Link
-                        className={`border flex ${pathname==='/profile/edit' ?  "":"p-2 hover:bg-accent"}  border-[#00687A] justify-center items-center text-center rounded-full bg-white shadow-lg ${pathname=== '/profile' ? "bg-[#00687A]" : "hover:bg-accent"}  `}
-                        href={"/profile/edit"} 
+                        className={`border flex ${pathname === "/profile/edit" ? "" : "p-2 hover:bg-accent"}  border-[#00687A] justify-center items-center text-center rounded-full bg-white shadow-lg ${pathname === "/profile" ? "bg-[#00687A]" : "hover:bg-accent"}  `}
+                        href={"/profile/edit"}
                       >
                         <span>
-                          <UserRoundPen className={`${pathname === "/profile/edit" ? "bg-[#00687A] p-2 rounded-full text-white" : "text-[#00687A] hover:bg-accent"}`}  size={pathname === "/profile/edit" ? 48 : 32} strokeWidth={2} />
+                          <UserRoundPen
+                            className={`${pathname === "/profile/edit" ? "bg-[#00687A] p-2 rounded-full text-white" : "text-[#00687A] hover:bg-accent"}`}
+                            size={pathname === "/profile/edit" ? 48 : 32}
+                            strokeWidth={2}
+                          />
                         </span>
                       </Link>
                       <span className={`${poppins.className} text-sm`}>
@@ -94,10 +98,14 @@ export default function AppDrawer() {
                     <div className="flex justify-center items-center flex-col text-center  gap-2">
                       <Link
                         href="/profile/picture"
-                        className={`border border-[#00687A] transial   duration-300 rounded-full flex  items-center text-center justify-center  bg-white shadow-lg ${pathname === '/profile/picture' ? ""  : "hover-:bg-accent p-2"}`}
+                        className={`border border-[#00687A] transial   duration-300 rounded-full flex  items-center text-center justify-center  bg-white shadow-lg ${pathname === "/profile/picture" ? "" : "hover-:bg-accent p-2"}`}
                       >
                         <span>
-                          <ContactRound className={`${pathname=== '/profile/picture' ? " bg-[#00687A] text-white p-2 rounded-full " : "text-[#00687A] hover:bg-accent"}`} size={pathname === '/profile/picture' ? 54 : 32} strokeWidth={2} />
+                          <ContactRound
+                            className={`${pathname === "/profile/picture" ? " bg-[#00687A] text-white p-2 rounded-full " : "text-[#00687A] hover:bg-accent"}`}
+                            size={pathname === "/profile/picture" ? 54 : 32}
+                            strokeWidth={2}
+                          />
                         </span>
                       </Link>
                       <span className={`${poppins.className} text-sm`}>
@@ -107,10 +115,14 @@ export default function AppDrawer() {
                     <div className="flex justify-center items-center flex-col text-center gap-2">
                       <Link
                         href={"/profile/security"}
-                        className={`border rounded-full flex items-center text-center bg-white shadow-lg transition-all duration-300 border-[#00687A] ${pathname === '/profile/security' ? "" : "hover:bg-accent p-2"}`}
+                        className={`border rounded-full flex items-center text-center bg-white shadow-lg transition-all duration-300 border-[#00687A] ${pathname === "/profile/security" ? "" : "hover:bg-accent p-2"}`}
                       >
                         <span>
-                          <ShieldUser className={`${pathname === '/profile/security' ? "bg-[#00687A] text-white p-2 rounded-full " : "text-[#0068A] hover:bg-accent"}`} size={pathname === '/profile' ? 48 : 32} strokeWidth={2} />
+                          <ShieldUser
+                            className={`${pathname === "/profile/security" ? "bg-[#00687A] text-white p-2 rounded-full " : "text-[#00687A] hover:bg-accent"}`}
+                            size={pathname === "/profile" ? 32 : 32}
+                            strokeWidth={2}
+                          />
                         </span>
                       </Link>
                       <span className={`${poppins.className} text-sm`}>
@@ -120,7 +132,7 @@ export default function AppDrawer() {
                   </div>
                 </div>
               </div>
-              <div className="mt-6 mx-5">
+              <div className="mt-6 mx-4">
                 <div className="flex flex-col gap-5">
                   <div className="flex gap-2 items-center">
                     <span>
@@ -132,23 +144,34 @@ export default function AppDrawer() {
                   </div>
                   <div className="flex justify-start items-center  text-center gap-5">
                     <div className="flex flex-col items-center justify-center gap-2">
-                    <Link href={"/profile/appearance"} className="border flex-col rounded-full flex items-center text-center p-2 bg-white shadow-lg">
-                    <span><Palette  size={32}/></span>
-                    
-                    </Link>
-                    <span className={`text-sm ${poppins.className}`}>Appearance</span>
+                      <Link
+                        href={"/profile/appearance"}
+                        className={`border flex-col rounded-full flex items-center text-center bg-white shadow-lg border-[#00687A] ${pathname==='/profile/appearance' ? "" : "p-2 bg-accent"}`}
+                      >
+                        <span>
+                          <Palette strokeWidth={2} className={`${pathname === '/profile/appearance' ? "bg-[#00687A] text-white p-2 rounded-full " : "text-[#00687A] hover:bg-accent"}`} size={pathname === '/profile/appearance' ? 48 :32} />
+                        </span>
+                      </Link>
+                      <span className={`text-sm ${poppins.className}`}>
+                        Appearance
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 justify-center">
+                      <Link
+                        href={"/profile/accountdeletion"}
+                        className={`border  border-[#00687A] transition-all duration-300 flex-col rounded-full flex items-center  text-center bg-white shadow-lg ${pathname==='/profile/accountdeletion' ? "" : "hover:bg-accent p-2"} `}
+                      >
+                        <span>
+                          <OctagonAlert size={pathname === '/profile/accountdeletion' ? 48 : 32} strokeWidth={2} className={`${pathname === '/profile/accountdeletion' ? "bg-[#00687A] text-white p-2 rounded-full" : "text-[#00687A] hover:bg-accent" } `} />
+                        </span>
+                      </Link>
+                      <span className={`${poppins.className} text-sm`}>
+                        Danger zone
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center gap-2 justify-center">
-                    <Link href={'/profile/accountdeletion'} className="border flex-col rounded-full flex items-center p-2 text-center bg-white shadow-lg ">
-                    <span><OctagonAlert size={32} /></span>
-                    </Link>
-                    <span className={`${poppins.className} text-sm`}>Danger zone</span>
-                  </div>
-     
-                  </div>
-
                 </div>
-                                <div className="flex mt-6  flex-col gap-6">
+                <div className="flex mt-6  flex-col gap-6">
                   <div className="flex gap-2 items-center">
                     <span>
                       <Settings />
@@ -159,21 +182,39 @@ export default function AppDrawer() {
                   </div>
                   <div className="flex justify-start items-center mx-4  text-center gap-12">
                     <div className="flex flex-col items-center justify-center gap-2">
-                    <button onClick={()=>{signOut();router.push('/')}} className="border flex-col rounded-full flex items-center text-center p-2 bg-white shadow-lg">
-                    <span><LogOut className="text-red-500 rotate-180"  size={32}/></span>
-                    
-                    </button>
-                    <span className={`text-sm ${poppins.className}`}>SignOut</span>
+                      <button
+                        onClick={() => {
+                          signOut();
+                          router.push("/");
+                        }}
+                        className="border flex-col hover:bg-accent rounded-full flex items-center text-center p-2 bg-white shadow-lg"
+                      >
+                        <span>
+                          <LogOut
+                            className="text-red-500 rotate-180"
+                            size={32}
+                            strokeWidth={2}
+                          />
+                        </span>
+                      </button>
+                      <span className={`text-sm ${poppins.className}`}>
+                        SignOut
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 justify-center">
+                      <Link
+                        href={"/profile"}
+                        className={`${pathname === "/profile" ? "" : "p-2 bg-accent text-[#00687A]"} border-[#00687A] transition-all duration-300 border flex-col rounded-full flex items-center  text-center bg-white shadow-lg`}
+                      >
+                        <span>
+                          <CircleUser size={pathname === "/profile" ? 48 : 32} className={`${pathname === '/profile' ? "bg-[#00687A] p-2 rounded-full text-white" : "hover:bg-accent" }`} />
+                        </span>
+                      </Link>
+                      <span className={`${poppins.className} text-sm`}>
+                        Account
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center gap-2 justify-center">
-                    <Link href={'/profile'} className="border flex-col rounded-full flex items-center p-2 text-center bg-white shadow-lg ">
-                    <span><CircleUser size={32}  /></span>
-                    </Link>
-                    <span className={`${poppins.className} text-sm`}>Account</span>
-                  </div>
-     
-                  </div>
-
                 </div>
               </div>
             </motion.div>
