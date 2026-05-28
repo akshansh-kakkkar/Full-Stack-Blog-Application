@@ -7,9 +7,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+
 const geist = Geist({
   subsets: ["latin"],
 });
+
 export default function EditProfile() {
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -133,7 +135,7 @@ export default function EditProfile() {
                 onChange={(e) => {
                   setFormData({ ...formData, name: e.target.value });
                 }}
-                className="flex  xl:w-[72%] border-2 rounded-sm px-3 py-2.25"
+                className="flex  xl:w-[72%] bg-white border-2 rounded-sm px-3 py-2.25"
                 placeholder="John Doe"
                 type="text"
               />
@@ -158,7 +160,7 @@ export default function EditProfile() {
                 onChange={(e) => {
                   setFormData({ ...formData, bio: e.target.value });
                 }}
-                className={`flex  xl:w-[72%] border-2 rounded-sm max-h-[250px] min-h-[50px] px-3 py-2.25 ${geist.className}`}
+                className={`flex  bg-white xl:w-[72%] border-2 rounded-sm max-h-[250px] min-h-[50px] px-3 py-2.25 ${geist.className}`}
                 placeholder="John doe is a really great guy even though every form uses his name but he never feels bad about it ...."
               />
               <div
@@ -179,14 +181,14 @@ export default function EditProfile() {
                   Location (optional)
                 </label>
                 <div className="relative w-[100%] ">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <MapPin className="absolute left-3  top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
                     value={formData.location}
                     onChange={(e) => {
                       setFormData({ ...formData, location: e.target.value });
                     }}
                     type="text"
-                    className="w-full pl-10  border-2 rounded-sm px-3 py-2.25"
+                    className="w-full pl-10   bg-white border-2 rounded-sm px-3 py-2.25"
                     placeholder="Vermont, USA"
                   />
                 </div>
@@ -219,7 +221,7 @@ export default function EditProfile() {
                       setFormData({ ...formData, gitHubUrl: e.target.value });
                     }}
                     value={formData.gitHubUrl}
-                    className="w-full pl-10  border-2 rounded-sm px-3 py-2.25"
+                    className="w-full pl-10  border-2 rounded-sm bg-white px-3 py-2.25"
                     placeholder="https://github.com/xyz/"
                   />
                 </div>
@@ -237,7 +239,7 @@ export default function EditProfile() {
                     width={30}
                     height={30}
                     alt="Linkedin"
-                    className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500"
+                    className="absolute left-2 bg-white top-1/2 -translate-y-1/2 text-gray-500"
                   />
                   <input
                     type="text"
@@ -245,7 +247,7 @@ export default function EditProfile() {
                     onChange={(e) => {
                       setFormData({ ...formData, linkedinUrl: e.target.value });
                     }}
-                    className="w-full pl-10 border-2 rounded-sm px-3 py-2.25"
+                    className="w-full pl-10 bg-white border-2 rounded-sm px-3 py-2.25"
                     placeholder="https://www.linkedin.com/in/xyz"
                   />
                 </div>
@@ -263,7 +265,7 @@ export default function EditProfile() {
                     width={30}
                     height={30}
                     alt="Instagram"
-                    className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500"
+                    className="absolute left-2  top-1/2 -translate-y-1/2 text-gray-500"
                   />
                   <input
                     type="text"
@@ -271,7 +273,7 @@ export default function EditProfile() {
                     onChange={(e) =>
                       setFormData({ ...formData, instagramUrl: e.target.value })
                     }
-                    className="w-full pl-12 border-2 rounded-sm px-3 py-2.25"
+                    className="w-full pl-12 border-2 bg-white  rounded-sm px-3 py-2.25"
                     placeholder="https://www.instagram.com/xyz"
                   />
                 </div>
@@ -291,7 +293,7 @@ export default function EditProfile() {
                     onChange={(e) =>
                       setFormData({ ...formData, websiteUrl: e.target.value })
                     }
-                    className="w-full pl-10 border-2 rounded-sm px-3 py-2.25"
+                    className="w-full pl-10 border-2 bg-white rounded-sm px-3 py-2.25"
                     placeholder="https://www.xyz.com"
                   />
                 </div>
@@ -305,15 +307,13 @@ export default function EditProfile() {
               className={`${geist.className} text-lg font-semibold flex justify-end gap-6`}
             >
               <button disabled={!hasChanges || saving} onClick={handleReset} className={` border-2  px-4 py-2 rounded-lg ${!hasChanges || saving ? "text-gray-400 border-gray-400 cursor-not-allowed": "text-[#191C1E] border-[#191C1E] cursor-pointer"}`}>
-                Reset
+                Cancel
               </button>
               <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
                 onClick={handleSave}
                 type="button"
                 disabled={!hasChanges || saving}
-                className={`text-white   px-4 py-2 rounded-lg flex gap-2 items-center justify-center ${!hasChanges || saving ? "bg-gray-400 cursor-not-allowed" : "bg-[#00687A] cursor-pointer"}`}
+                className={`text-white   px-4 py-2 rounded-lg flex gap-2 items-center justify-center ${!hasChanges || saving ? "bg-gray-400 cursor-not-allowed" : "bg-[#00687A] hover:bg-[#004d5a] cursor-pointer"}`}
               >
                 <span>
                   <Save />

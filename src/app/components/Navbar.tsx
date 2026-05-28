@@ -153,9 +153,7 @@ export default function Navbar() {
           </div>
           <div>
             <motion.div
-              exit={{ rotate: 0 }}
-              animate={{ rotate: isOpen ? 90 : 0 }}
-              initial={{ rotate: 0 }}
+
               className="block md:hidden"
               onClick={toggleOpen}
             >

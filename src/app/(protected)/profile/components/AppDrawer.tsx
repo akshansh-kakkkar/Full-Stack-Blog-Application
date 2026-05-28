@@ -56,9 +56,9 @@ export default function AppDrawer() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               initial={{ y: "100%" }}
-              className="right-0 left-0 bg-white overflow-y-auto  h-[65vh] bottom-0 fixed z-50 p-6 rounded-t-3xl"
+              className="right-0  left-0 bg-white overflow-y-auto flex flex-col gap-5 h-[65vh] bottom-0 fixed z-50 p-6 rounded-t-3xl"
             >
-              <div className="flex border-b pb-5 justify-between text-center items-center text-2xl">
+              <div className="flex border-b pb-5 justify-between text-center  items-center text-2xl">
                 <span className={`${libretinusSans.className}`}>Profile</span>
                 <span
                   onClick={() => setOpen(false)}
@@ -67,7 +67,7 @@ export default function AppDrawer() {
                   <X strokeWidth={2} />
                 </span>
               </div>
-              <div className="mt-8 mx-5">
+              <div className="">
                 <div className="flex flex-col gap-5">
                   <div className="flex item-center gap-2">
                     <span>
@@ -132,7 +132,7 @@ export default function AppDrawer() {
                   </div>
                 </div>
               </div>
-              <div className="mt-6 mx-4">
+              
                 <div className="flex flex-col gap-5">
                   <div className="flex gap-2 items-center">
                     <span>
@@ -171,7 +171,8 @@ export default function AppDrawer() {
                     </div>
                   </div>
                 </div>
-                <div className="flex mt-6  flex-col gap-6">
+                
+                <div className="flex flex-col gap-6">
                   <div className="flex gap-2 items-center">
                     <span>
                       <Settings />
@@ -216,7 +217,7 @@ export default function AppDrawer() {
                     </div>
                   </div>
                 </div>
-              </div>
+             
             </motion.div>
           </motion.div>
         )}
