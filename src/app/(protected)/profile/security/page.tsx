@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { Fingerprint, KeyRound, Mail, MonitorSmartphone } from "lucide-react";
 import { Geist, JetBrains_Mono } from "next/font/google";
 
 const geist = Geist({
@@ -20,8 +20,8 @@ export default function Security() {
           Manage your account, security, passwords and active sessions.
         </div>
       </div>
-      <div className="grid grid-cols-3 ">
-        <div className="col-span-2">
+      <div className="lg:grid flex flex-col lg:grid-cols-3 gap-7 ">
+        <div className="col-span-2 flex flex-col gap-8">
           <div className="bg-white px-8 flex flex-col gap-4 py-12 w-full  rounded-lg border-1 border-[#C6C6CD]">
             <div className="flex gap- flex-col">
               <div className="flex gap-2 items-center">
@@ -73,20 +73,18 @@ export default function Security() {
               </label>
               <div className="flex gap-4">
                 <div className="flex items-center gap-3">
-                    {[1,2,3,4].map((_, index)=>(
-
-                    
-                <input
-                maxLength={1}
-                key={index}
-                inputMode="numeric"
-                  className="rounded-sm w-14 h-14 flex justify-center items-center text-center  tracking-widest bg-[#F2F4F6] border-1 border-[#C6C6CD] p-2 text-[#76777D]"
-                  type="text"
-                />
-                ))}
-</div>
+                  {[1, 2, 3, 4].map((_, index) => (
+                    <input
+                      maxLength={1}
+                      key={index}
+                      inputMode="numeric"
+                      className="rounded-sm md:w-14 md:h-14 h-7 w-7 flex justify-center items-center text-center  tracking-widest bg-[#F2F4F6] border-1 border-[#C6C6CD] p-2 text-[#76777D]"
+                      type="text"
+                    />
+                  ))}
+                </div>
                 <button
-                  className={`border-[#00687A] border-2 px-8 font-bold py-2 text-[#00687A] rounded-sm text-md w-fit ${jetBrains.className}`}
+                  className={`border-[#00687A] border-2 md:px-8 py-1 px-2 font-bold md:py-2 text-[#00687A] text-sm md:text-xl rounded-sm text-md w-fit ${jetBrains.className}`}
                 >
                   SEND
                 </button>
@@ -98,6 +96,121 @@ export default function Security() {
               Update Email
             </button>
           </div>
+          <div className="bg-white px-8 flex flex-col gap-4 py-12 w-full  rounded-lg border-1 border-[#C6C6CD]">
+            <div className="flex gap- flex-col">
+              <div className="flex gap-2 items-center">
+                <span>
+                  <KeyRound
+                    strokeWidth={2}
+                    size={32}
+                    className="text-[#191C1E]"
+                  />
+                </span>
+                <span
+                  className={`text-2xl ${geist.className} text-[#191C1E] font-semibold`}
+                >
+                  Change Email
+                </span>
+              </div>{" "}
+              <div className={`${geist.className} text-[#45464D] text-md`}>
+                Ensure your account is using a long , random password to stay
+                secure.
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor=""
+                className={`${jetBrains.className} font-[600] text-[#191C1E]`}
+              ></label>
+              <input
+                placeholder="••••••••••••••••"
+                className={`border-1 text-[#76777D] text-[#]  text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg border-1 p-2 border-[#6B7280]`}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor=""
+                className={`${jetBrains.className} font-[600] text-[#191C1E]`}
+              >
+                New Password Passowrd
+              </label>
+              <input
+                placeholder="••••••••••••••••"
+                className={`border-1 text-[#76777D] text-[#]  text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg border-1 p-2 border-[#6B7280]`}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor=""
+                className={`${jetBrains.className} font-[600] text-[#191C1E]`}
+              >
+                Confirm New Passowrd
+              </label>
+              <input
+                placeholder="••••••••••••••••"
+                className={`border-1 text-[#76777D] text-[#]  text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg border-1 p-2 border-[#6B7280]`}
+              />
+            </div>
+            <button
+              className={`bg-[#00687A] px-5 py-3 text-white rounded-sm text-xl w-fit ${jetBrains.className}`}
+            >
+              Update Password
+            </button>
+          </div>
+          <div className="bg-white px-8 flex flex-col gap-4 py-12 w-full  rounded-lg border-1 border-[#C6C6CD]">
+            <div className="flex flex-col md:flex-row justify-center text-center md:justify-start md:text-start gap-2 items-center">
+              <span>
+                <Fingerprint
+                  strokeWidth={2}
+                  size={32}
+                  className="text-[#191C1E]"
+                />
+              </span>
+              <span
+                className={`text-2xl ${geist.className} flex flex-col md:flex-row gap-4 text-[#191C1E] font-semibold`}
+              >
+                <span>Two Factor Authentication</span>
+                <span className="text-[#76777D] font-medium">(Optional)</span>
+              </span>
+            </div>{" "}
+            <div className="bg-[#E0E3E5] w-fit px-2 py-1 text-sm text-[#45464D] rounded-xs">
+              NOT ENABLED
+            </div>
+            <div className={`text-xl text-[#45464D]`}>
+              Add an additional layer of security to your account by requiring
+              more than just a passoword to sign in. 2FA is strongly
+              recommended.
+            </div>
+            <button
+              className={`bg-[#191C1E] px-5 py-3 text-white rounded-sm text-xl w-fit ${jetBrains.className}`}
+            >
+              Enable{" "}
+            </button>
+          </div>
+        </div>
+        <div className="col-span-1 flex flex-col gap-8">
+          <div className="bg-white px-8 flex flex-col gap-4 py-6 w-full  rounded-lg border-1 border-[#C6C6CD]">
+            <div className={`${jetBrains.className} uppercase `}>
+              Security Health
+            </div>
+            <div className="flex justify-center  items-center">
+              <div className="h-40 w-40 flex justify-center items-center bg-[#00687A] rounded-full">
+                <div className="h-25 w-25 bg-white rounded-full"></div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white px-8 flex flex-col gap-4 py-6 w-full  rounded-lg border-1 border-[#C6C6CD]">
+                      <div className={`${jetBrains.className} uppercase `}>
+            <div className="flex justify-between">
+                <div>Active Sessions</div>
+                <div><MonitorSmartphone /></div>
+            </div>
+          </div>
+          </div>
+          <div className="flex justify-center py-2 rounded items-center text-center bg-[#BA1A1A]  text-white">
+            <span className={`${jetBrains.className} text-xl`}>Revoke All Sessions</span>
+          </div>
+
         </div>
       </div>
     </div>
