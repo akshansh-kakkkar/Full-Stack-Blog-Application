@@ -120,7 +120,7 @@ export default function Page() {
         router.push("/?toast=signup-success");
       }
     } catch (err: any) {
-      toast.error(err.message || "something went wrong");
+      toast.error(err.message || "something went wrong this is clearly not my fault ");
     } finally {
       setLoading(false);
     }

@@ -53,7 +53,7 @@ export default function EditProfile() {
         </div>,
       );
     } catch (error) {
-      toast.error("Something Went Wrong.");
+      toast.error("Something Went Wrong. This is clearly not my fault");
     } finally {
       setSaving(false);
     }
@@ -115,7 +115,7 @@ export default function EditProfile() {
         </div>,
       );
     } catch (error) {
-      toast.error("Data reset unsuccessfull please try again!");
+      toast.error("Data reset unsuccessfull please try again this is not my fault.");
     } finally {
       setLoading(false);
     }

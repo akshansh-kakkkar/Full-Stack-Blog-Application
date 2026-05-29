@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
-import { Session } from "inspector/promises";
 import { NextResponse } from "next/server";
 
 export async function GET(){
@@ -13,8 +12,9 @@ export async function GET(){
             userId : session?.user.id
         },
         orderBy : {
-            createdAt : "desc"
-        }
+            updatedAt : "desc"
+        },
+        take:3
     })
     return NextResponse.json({message : "All sessions Fetched Successfully" , sessions})
 }

@@ -70,7 +70,7 @@ export default function Avatar() {
         method: "DELETE",
       });
       if (!response.ok) {
-        toast.error("Failed to remove avatar.");
+        toast.error("Failed to remove avatar. Try Refreshing this is not my fault");
         return;
       }
       setPreview("");
@@ -93,7 +93,7 @@ export default function Avatar() {
       );
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong. This is clearly not my fault");
     } finally {
       setLoading(false);
       setActionFile(null);
@@ -114,7 +114,7 @@ export default function Avatar() {
         }),
       });
       if (!response.ok) {
-        toast.error("Upload Failed");
+        toast.error("Upload Failed. Try refreshing this is not my fault.");
         return;
       }
       toast.success(
@@ -132,7 +132,7 @@ export default function Avatar() {
       );
       await refetch();
     } catch (error) {
-      return toast.error("Something Went Wrong");
+      return toast.error("Something Went Wrong. This is clearly not my fault");
     } finally {
       setLoading(false);
       setActionFile(null);

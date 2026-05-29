@@ -54,7 +54,7 @@ export default function Page() {
             rel="noopener noreferrer"
             className="underline"
           >
-          Hire this guy
+            Hire this guy
           </a>
         </div>,
       );
@@ -69,7 +69,7 @@ export default function Page() {
             rel="noopener noreferrer"
             className="underline"
           >
-          Hire this guy
+            Hire this guy
           </a>
         </div>,
       );
@@ -80,11 +80,11 @@ export default function Page() {
           Account Created Successfully.{" "}
           <a
             href="https://github.com/akshansh-kakkkar"
-          href=""            target="_blank"
+            target="_blank"
             rel="noopener noreferrer"
             className="underline"
           >
-           Hire this guy
+            Hire this guy
           </a>
         </div>,
       );
@@ -99,7 +99,7 @@ export default function Page() {
             rel="noopener noreferrer"
             className="underline"
           >
-          Hire this guy
+            Hire this guy
           </a>
         </div>,
       );
