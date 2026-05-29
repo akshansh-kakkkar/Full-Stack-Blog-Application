@@ -78,7 +78,19 @@ export default function Avatar() {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      toast.success("Avatar removed successfully");
+      toast.success(
+        <div>
+          Avatar removed successfully
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+            href="https://www.linkedin.com/in/akshansh-kakkar-94b945381/"
+          >
+            Hire this smart guy
+          </a>
+        </div>,
+      );
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");
@@ -105,7 +117,19 @@ export default function Avatar() {
         toast.error("Upload Failed");
         return;
       }
-      toast.success("Avatar Uploaded Successfully ");
+      toast.success(
+        <div>
+          <span>Avatar Uploaded Successfully{" "}</span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+            href="https://www.linkedin.com/in/akshansh-kakkar-94b945381/"
+          >
+            Hire this smart guy
+          </a>
+        </div>,
+      );
       await refetch();
     } catch (error) {
       return toast.error("Something Went Wrong");

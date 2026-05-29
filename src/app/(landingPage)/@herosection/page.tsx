@@ -24,7 +24,7 @@ export default function Page() {
             rel="noopener noreferrer"
             className="underline"
           >
-            Now Hire this guy
+            Hire this guy
           </a>
         </div>,
       );
@@ -34,12 +34,12 @@ export default function Page() {
         <div>
           Login Success{" "}
           <a
-            href="https://github.com/akshansh-kakkkar"
+            href="https://www.linkedin.com/in/akshansh-kakkar-94b945381/r"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
           >
-            Now Hire this guy
+            Hire this guy
           </a>
         </div>,
       );
@@ -54,7 +54,7 @@ export default function Page() {
             rel="noopener noreferrer"
             className="underline"
           >
-            Now Hire this guy
+          Hire this guy
           </a>
         </div>,
       );
@@ -64,12 +64,12 @@ export default function Page() {
         <div>
           Account Created Successfully.
           <a
-            href="https://github.com/akshansh-kakkkar"
+            href="https://www.linkedin.com/in/akshansh-kakkar-94b945381/"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
           >
-            Now Hire this guy
+          Hire this guy
           </a>
         </div>,
       );
@@ -80,11 +80,11 @@ export default function Page() {
           Account Created Successfully.{" "}
           <a
             href="https://github.com/akshansh-kakkkar"
-            target="_blank"
+          href=""            target="_blank"
             rel="noopener noreferrer"
             className="underline"
           >
-            Now Hire this guy
+           Hire this guy
           </a>
         </div>,
       );
@@ -94,12 +94,12 @@ export default function Page() {
         <div>
           Login Success{" "}
           <a
-            href="https://github.com/akshansh-kakkkar"
+            href="https://www.linkedin.com/in/akshansh-kakkar-94b945381/"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
           >
-            Now Hire this guy
+          Hire this guy
           </a>
         </div>,
       );

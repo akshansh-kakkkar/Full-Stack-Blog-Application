@@ -39,7 +39,19 @@ export default function EditProfile() {
         toast.error("Profile Update Failed! Please try again after refresh");
         return;
       }
-      toast.success("Profile Updated Successfully");
+      toast.success(
+        <div>
+        <span> Profile Updated Successfully. </span> 
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+            href="https://github.com/akshansh-kakkkar"
+          >
+            Hire this smart guy
+          </a>
+        </div>,
+      );
     } catch (error) {
       toast.error("Something Went Wrong.");
     } finally {
@@ -79,32 +91,46 @@ export default function EditProfile() {
         setInitialState(profileData);
       } catch (error) {
         toast.error("Failed to load profile.");
-      }
-      finally{
-                setLoading(false);
-
+      } finally {
+        setLoading(false);
       }
     };
     fetchProfile();
   }, [userId]);
-    const handleReset= ()=>{
-      try{
-        setLoading(true)
+  const handleReset = () => {
+    try {
+      setLoading(true);
       setFormData(initialState);
-      toast.success("Data reset successfull.")
-      }
-      catch(error){
-        toast.error("Data reset unsuccessfull please try again!")
-      }
-      finally{
-        setLoading(false)
-      }
-  }
+      toast.error(
+        <div>
+         <span> Cancelled. </span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+            href="https://www.linkedin.com/in/akshansh-kakkar-94b945381/"
+          >
+             Hire this Smart Guy
+          </a>
+        </div>,
+      );
+    } catch (error) {
+      toast.error("Data reset unsuccessfull please try again!");
+    } finally {
+      setLoading(false);
+    }
+  };
   const hasChanges = JSON.stringify(formData) !== JSON.stringify(initialState);
   return (
     <>
       {loading || saving ? (
-        <div className="flex justify-center items-center h-full"><Loader2 size={48} strokeWidth={2} className="text-2xl text-[#00687A] animate-spin"/></div>
+        <div className="flex justify-center items-center h-full">
+          <Loader2
+            size={48}
+            strokeWidth={2}
+            className="text-2xl text-[#00687A] animate-spin"
+          />
+        </div>
       ) : (
         <div className="sm:mx-22">
           <div className="flex flex-col gap-4 border-[#C6C6CD] border-b-2 pb-2">
@@ -306,7 +332,11 @@ export default function EditProfile() {
             <div
               className={`${geist.className} text-lg font-semibold flex justify-end gap-6`}
             >
-              <button disabled={!hasChanges || saving} onClick={handleReset} className={` border-2  px-4 py-2 rounded-lg ${!hasChanges || saving ? "text-gray-400 border-gray-400 cursor-not-allowed": "text-[#191C1E] border-[#191C1E] cursor-pointer"}`}>
+              <button
+                disabled={!hasChanges || saving}
+                onClick={handleReset}
+                className={` border-2  px-4 py-2 rounded-lg ${!hasChanges || saving ? "text-gray-400 border-gray-400 cursor-not-allowed" : "text-[#191C1E] border-[#191C1E] cursor-pointer"}`}
+              >
                 Cancel
               </button>
               <motion.button
