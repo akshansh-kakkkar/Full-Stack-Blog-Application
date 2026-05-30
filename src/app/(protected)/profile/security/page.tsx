@@ -1,6 +1,8 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { Session } from "better-auth";
 import {
+  Eye,
   Fingerprint,
   KeyRound,
   Loader2,
@@ -9,9 +11,11 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { Geist, JetBrains_Mono } from "next/font/google";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { fa } from "zod/v4/locales";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -23,9 +27,55 @@ type UserSession = Session & {
   location?: string;
 };
 export default function Security() {
-  const router = useRouter()
+  const router = useRouter();
   const [loadingSessions, setLoadingSessions] = useState(true);
   const [sessions, setSessions] = useState<UserSession[]>([]);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPasswrd, setConfirmNewPasswrd] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [eyetoggle, setEyetoggle] = useState(false)
+  const [togglePassword, setTogglePassword] = useState(false);
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmNewPasswrd) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+    try {
+      setIsChangingPassword(true);
+      const result = await authClient.changePassword({
+        currentPassword,
+        newPassword,
+        revokeOtherSessions: true,
+      });
+      if (result.error) {
+        toast.error(result.error.message);
+        return;
+      }
+      toast.success(
+        <div>
+          <span> Password updated successfully. </span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+            href="https://github.com/akshansh-kakkkar"
+          >
+            Hire this smart guy
+          </a>
+        </div>,
+      );
+      setCurrentPassword("");
+      setConfirmNewPasswrd("");
+      setNewPassword("");
+    } catch (error) {
+      toast.error(
+        "Something went wrong please try again this is not my fault.",
+      );
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
   useEffect(() => {
     const fetchSessions = async () => {
       try {
@@ -54,12 +104,12 @@ export default function Security() {
         );
         return;
       }
-      if(response.ok){
-        router.push('/')
+      if (response.ok) {
+        router.push("/");
       }
       toast.success(
         <div>
-          <span> Profile Updated Successfully. </span>
+          <span> Active sessions fetched Successfully. </span>
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -76,6 +126,12 @@ export default function Security() {
       setLoadingSessions(false);
     }
   };
+  const [isSocialUser, setIsSocialUser] = useState(false);
+  useEffect(() => {
+    fetch("/api/security/provider")
+      .then((res) => res.json())
+      .then((data) => setIsSocialUser(data.isSocialUser));
+  }, []);
   return (
     <div className="flex flex-col gap-8">
       <div className="flex  sm:justify-start justify-center flex-col gap-4 border-[#C6C6CD] border-b-2 pb-2 ">
@@ -91,7 +147,7 @@ export default function Security() {
       <div className="lg:grid flex flex-col lg:grid-cols-3 gap-7 ">
         <div className="col-span-2 flex flex-col gap-8">
           <div className="bg-white border px-8 flex flex-col gap-4 py-12 w-full  rounded-lg  border-[#C6C6CD]">
-            <div className="flex gap- flex-col">
+            <div className="flex gap-4 flex-col">
               <div className="flex gap-2 items-center">
                 <span>
                   <Mail strokeWidth={2} size={32} className="text-[#191C1E]" />
@@ -137,6 +193,20 @@ export default function Security() {
                 htmlFor=""
                 className={`${jetBrains.className} font-[600] text-[#191C1E]`}
               >
+                Confirm Email Address
+              </label>
+              <input
+                className="rounded-sm bg-[#F2F4F6] border border-[#C6C6CD] p-2 text-[#76777D]"
+                type="text"
+                placeholder="new@example.com"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor=""
+                className={`${jetBrains.className} font-[600] text-[#191C1E]`}
+              >
                 One Time Password (OTP)
               </label>
               <div className="flex gap-4">
@@ -152,6 +222,8 @@ export default function Security() {
                   ))}
                 </div>
                 <button
+                  disabled={isChangingPassword}
+                  onClick={handleChangePassword}
                   className={`border-[#00687A] border-2 md:px-8 py-1 px-2 font-bold md:py-2 text-[#00687A] text-sm md:text-xl rounded-sm text-md w-fit ${jetBrains.className}`}
                 >
                   SEND
@@ -165,7 +237,7 @@ export default function Security() {
             </button>
           </div>
           <div className="bg-white border px-8 flex flex-col gap-4 py-12 w-full  rounded-lg  border-[#C6C6CD]">
-            <div className="flex gap- flex-col">
+            <div className="flex gap-4 flex-col">
               <div className="flex gap-2 items-center">
                 <span>
                   <KeyRound
@@ -177,54 +249,97 @@ export default function Security() {
                 <span
                   className={`text-2xl ${geist.className} text-[#191C1E] font-semibold`}
                 >
-                  Change Email
+                  Change Passwsord
                 </span>
               </div>{" "}
-              <div className={`${geist.className} text-[#45464D] text-md`}>
-                Ensure your account is using a long , random password to stay
-                secure.
+              <div >
+              {loadingSessions ? (
+                <div>
+                  <Loader2 className="animate-spin text-[#00687A] " strokeWidth={2} size={64}  />
+                </div>
+              ) : (
+                <div>
+              {isSocialUser ? (
+                <div className={`${geist.className} flex justify-center flex-col gap-4 items-center text-[#45464D]`}>
+                  <p className="flex w-100 text-center">
+                    This account uses Google or Github Sign-In. Password changes
+                    are managed by your social provider.{" "}
+                  </p>
+                  <div>You need to <Link className="underline" target="_blank" rel="noopener noreferrer" href="https://www.github.com/akshansh-kakkkar">Hire Me</Link> to perform this action xd.</div>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  <div className={`${geist.className} text-[#45464D] text-md`}>
+                    Ensure your account is using a long , random password to
+                    stay secure.
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor=""
+                      className={`${jetBrains.className} font-[600] text-[#191C1E]`}
+                    >
+                      Current Password
+                    </label>
+                    <input
+                      placeholder="••••••••••••••••"
+                      className={` text-[#76777D] text-[#] border  text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg  p-2 `}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      value={currentPassword}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor=""
+                      className={`${jetBrains.className} font-[600] text-[#191C1E]`}
+                    >
+                      New Password
+                    </label>
+                    <div className="relative w-full">
+                      <Eye className="absolute right-6 top-1/4"/>
+                    <input
+                      placeholder="••••••••••••••••"
+                      className={` text-[#76777D] w-full text-[#] border text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg  p-2`}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      value={newPassword}
+                    />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor=""
+                      className={`${jetBrains.className} font-[600] text-[#191C1E]`}
+                    >
+                      Confirm New Passowrd
+                    </label>
+                    <div className="w-full relative">
+                      <Eye className="absolute right-6  top-1/4"/>
+                    <input
+                      placeholder="••••••••••••••••"
+                      type
+                      className={` text-[#76777D] pr-14 text-[#] w-full border text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg  p-2 `}
+                      onChange={(e) => {
+                        setConfirmNewPasswrd(e.target.value);
+                      }}
+                      value={confirmNewPasswrd}
+                    />
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleChangePassword}
+                    disabled={isChangingPassword}
+                    className={`bg-[#00687A] px-5 py-3 text-white rounded-sm text-xl w-fit ${jetBrains.className}`}
+                  >
+                    {isChangingPassword ? "updating..." : "Update Password"}
+                  </button>
+                </div>
+                
+              )}
+              </div>
+              )}
               </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor=""
-                className={`${jetBrains.className} font-[600] text-[#191C1E]`}
-              ></label>
-              <input
-                placeholder="••••••••••••••••"
-                className={` text-[#76777D] text-[#] border  text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg  p-2 `}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor=""
-                className={`${jetBrains.className} font-[600] text-[#191C1E]`}
-              >
-                New Password Passowrd
-              </label>
-              <input
-                placeholder="••••••••••••••••"
-                className={` text-[#76777D] text-[#] border text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg  p-2`}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor=""
-                className={`${jetBrains.className} font-[600] text-[#191C1E]`}
-              >
-                Confirm New Passowrd
-              </label>
-              <input
-                placeholder="••••••••••••••••"
-                className={` text-[#76777D] text-[#]  border text-[#191C1E] rounded-sm bg-[#F2F4F6]  text-lg  p-2 `}
-              />
-            </div>
-            <button
-              className={`bg-[#00687A] px-5 py-3 text-white rounded-sm text-xl w-fit ${jetBrains.className}`}
-            >
-              Update Password
-            </button>
           </div>
+
           <div className="bg-white border px-8 flex flex-col gap-4 py-12 w-full  rounded-lg  border-[#C6C6CD]">
             <div className="flex flex-col md:flex-row justify-center text-center md:justify-start md:text-start gap-2 items-center">
               <span>
@@ -299,7 +414,7 @@ export default function Security() {
                 </div>
               ) : (
                 sessions.map((session) => {
-                    const expiredAt = new Date(session.expiresAt) <  new Date()
+                  const expiredAt = new Date(session.expiresAt) < new Date();
                   const browser = session.userAgent?.includes("Chrome")
                     ? "Google Chrome"
                     : session.userAgent?.includes("Firefox")
@@ -349,12 +464,13 @@ export default function Security() {
                           {new Date(session.updatedAt).toLocaleString()}
                         </div>
                         <div className="flex justify-end">
-                                                  <div className={`text-sm flex justify-end w-fit px-2 py-1 rounded-md  ${expiredAt ? "bg-red-100 text-red-700": "bg-green-100 text-green-700"}`}>
-                           {expiredAt ? "Expired" : "Active"}
+                          <div
+                            className={`text-sm flex justify-end w-fit px-2 py-1 rounded-md  ${expiredAt ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}
+                          >
+                            {expiredAt ? "Expired" : "Active"}
                           </div>
-                          </div>
+                        </div>
                       </div>
-                      
                     </div>
                   );
                 })
