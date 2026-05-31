@@ -403,7 +403,7 @@ export default function Security() {
                       <div
                         className={`${geist.className} flex justify-center flex-col gap-4 items-center text-[#45464D]`}
                       >
-                        <p className="flex w-100 text-center">
+                        <p className="flex sm:w-100 text-center flex-wrap ">
                           This account uses Google or Github Sign-In. Password
                           changes are managed by your social provider.{" "}
                         </p>
@@ -561,7 +561,7 @@ export default function Security() {
         <div className="col-span-1 flex flex-col gap-8">
           <div className="bg-white border px-8 flex flex-col gap-4 py-6 w-full  rounded-lg  border-[#C6C6CD]">
             <div className={`${jetBrains.className} uppercase `}>
-              Security Health
+              Security Health (coming soon)
             </div>
             <div className="flex justify-center  items-center">
               <div className="h-40 w-40 flex justify-center items-center bg-[#00687A] rounded-full">
