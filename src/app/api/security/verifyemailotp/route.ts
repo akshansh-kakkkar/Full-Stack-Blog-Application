@@ -30,6 +30,17 @@ export async function POST(request : Request){
             id : emailRequest.id
         }
     })
+
+    await prisma.user.update({
+        where: {
+            id: session.user.id
+        },
+        data: {
+            email: newEmail,
+            emailVerified: true
+        }
+    })
+
     return NextResponse.json({verified : true})
 }catch(error){
     

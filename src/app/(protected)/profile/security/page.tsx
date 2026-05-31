@@ -162,6 +162,7 @@ export default function Security() {
   }, []);
 
   const handleChangeEmail = async () => {
+    const OtpValue = otp.join('');
     const response = await fetch("/api/security/verifyemailotp", {
     method : "POST",
     headers : {
@@ -169,28 +170,26 @@ export default function Security() {
     },
     body : JSON.stringify({
       newEmail, 
-      otp,
+      otp: OtpValue,
     }),
     })
     if(!response.ok){
       toast.error("Invalid OTP");
       return;
     }
-      const result = await authClient.changeEmail({
-        newEmail,
-        callbackURL: "/settings/security",
-      });
-      if (result.error) {
-        toast.error("Email failed to update");
-      }
-      toast.success("Verification email sent check your mail box.");
-
+    
+    toast.success("Email updated successfully.");
+    setNewEmail("");
+    setConfirmEmail("");
+    setOtp(["", "", "", "", "", ""]);
+    router.refresh();
   };
   const handleSendOtp = async () => {
     if (newEmail !== confirmEmail) {
       toast.error("Emails do not match.");
       return;
     }
+    const OtpValue = otp.join('');
     const response = await fetch("/api/security/sendemailotp", {
       method: "POST",
       headers: {
@@ -198,6 +197,7 @@ export default function Security() {
       },
       body: JSON.stringify({
         newEmail,
+        otp : OtpValue
       }),
     });
     if (!response.ok) {
@@ -292,15 +292,22 @@ export default function Security() {
               </label>
               <div className="flex gap-2 md:gap-4">
                 <div className="flex items-center gap-1 md:gap-3">
+                  {otp.map((digit, index)=>(
+                    
                     <input
-                      onChange={()=> {
-                        const newOtp 
-                      }}
-                      value={otp}
-                      inputMode="numeric"
+                    key={index}
+                    value={digit}
+                    maxLength={1}
+                    inputMode="numeric"
+                    onChange={(e)=>{
+                      const newOtp = [...otp]
+                      newOtp[index] = e.target.value;
+                      setOtp(newOtp)
+                    }}
                       className="rounded-sm md:w-14 md:h-14 h-7 w-7 border flex justify-center items-center text-center  tracking-widest bg-[#F2F4F6]  border-[#C6C6CD] p-2 text-[#76777D]"
                       type="text"
                     />
+                  ))}
                 </div>
                 <button
                   onClick={handleSendOtp}

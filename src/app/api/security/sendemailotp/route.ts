@@ -62,7 +62,7 @@ export async function POST(request: Request,) {
     });
     const { data, error: resendError } = await resend.emails.send({
       from: "Devlogs Security <security@mail.notsodev.com>",
-      to: newEmail,
+      to: session.user.email,
       subject: "Verify Email Change.",
       html: `<h2>Email change password.</h2>
        <p>Your request to change your email to : </p>
