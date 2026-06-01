@@ -171,10 +171,14 @@ export async function DELETE(
     if (session.user.id !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    await prisma.user.delete({
+    await prisma.user.update({
       where: {
         id: userId,
       },
+      data : {
+        isDeleted : true,
+        deletedAt : new Date()
+      }
     });
     return NextResponse.json({
       message: "User Deleted Successfully",

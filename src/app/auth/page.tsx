@@ -1,21 +1,14 @@
 "use client";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader, Loader2, Mail, User, X } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, User, X } from "lucide-react";
 import Link from "next/link";
-import { Geist, Lato, Libertinus_Serif, Poppins } from "next/font/google";
+import { Lato, Poppins } from "next/font/google";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, signUp } from "@/lib/auth-client";
 import { motion } from "framer-motion";
 
-const libreSerif = Libertinus_Serif({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-const geist = Geist({
-  subsets: ["latin"],
-});
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -26,27 +19,6 @@ const lato = Lato({
 });
 
 export default function Page() {
-  useEffect(() => {
-    const resetState = () => {
-      setSwitchLoading(false);
-      setLoading(false);
-      setSocialLoading(false);
-      setSocialLoading2(false);
-      setSocialSignInLoading(false);
-      setSocialSignInLoading2(false);
-    };
-    const hnadleVisibility = () => {
-      if (document.visibilityState === "visible") {
-        window.location.reload();
-      }
-    };
-
-    resetState();
-    document.addEventListener("visibilitychange", hnadleVisibility);
-    return () => {
-      document.removeEventListener("visibilitychange", hnadleVisibility);
-    };
-  }, []);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -120,7 +92,9 @@ export default function Page() {
         router.push("/?toast=signup-success");
       }
     } catch (err: any) {
-      toast.error(err.message || "something went wrong this is clearly not my fault ");
+      toast.error(
+        err.message || "something went wrong this is clearly not my fault ",
+      );
     } finally {
       setLoading(false);
     }
@@ -369,9 +343,8 @@ export default function Page() {
                           setSocialLoading2(true);
                           await signIn.social({
                             provider: "google",
-                            callbackURL: "/?toast=google-login-success"
+                            callbackURL: "/?toast=google-login-success",
                           });
-                          
                         } finally {
                           setSocialLoading2(false);
                         }
@@ -404,7 +377,7 @@ export default function Page() {
                           setSocialLoading(true);
                           await signIn.social({
                             provider: "github",
-                            callbackURL :"/?toast=github-login-success"
+                            callbackURL: "/?toast=github-login-success",
                           });
                         } finally {
                           setSocialLoading(false);
@@ -606,8 +579,7 @@ export default function Page() {
                             setSocialSignInLoading(true);
                             await signIn.social({
                               provider: "google",
-                              callbackURL :"/?toast=google-signup-success"
-
+                              callbackURL: "/?toast=google-signup-success",
                             });
                           } finally {
                             setSocialSignInLoading(false);
@@ -641,9 +613,8 @@ export default function Page() {
                             setSocialSignInLoading2(true);
                             await signIn.social({
                               provider: "github",
-                              callbackURL : "/?toast=github-login-success"
+                              callbackURL: "/?toast=github-login-success",
                             });
-                           
                           } finally {
                             setSocialSignInLoading2(false);
                           }
