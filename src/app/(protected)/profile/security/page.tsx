@@ -310,7 +310,7 @@ export default function Security() {
               <input
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
-                className="rounded-sm bg-[#F2F4F6] border border-[#C6C6CD] p-2]"
+                className="rounded-sm  bg-[#F2F4F6] border border-[#C6C6CD] p-2"
                 type="text"
                 placeholder="new@example.com"
               />
@@ -329,7 +329,7 @@ export default function Security() {
                 type="text"
                 placeholder="new@example.com"
               />
-            </div>
+            </div>w
 
             <div className="flex flex-col gap-2">
               <label

@@ -1,6 +1,5 @@
 "use client";
 import { useSession } from "@/lib/auth-client";
-import { github } from "better-auth";
 import { Globe, Info, Loader2, MapPin, Save } from "lucide-react";
 import { Geist } from "next/font/google";
 import Image from "next/image";
