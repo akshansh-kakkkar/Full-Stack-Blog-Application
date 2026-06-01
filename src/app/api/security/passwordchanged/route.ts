@@ -15,7 +15,6 @@ export async function POST(req: Request) {
         <h3><a href="www.linkedin.com/in/akshansh-kakkar-94b945381">Akshansh Kakkar</a></h3>
         `
     })
-    console.log("Email Result", result)
     return NextResponse.json({ success: true , result}, )
 }
 catch(error){

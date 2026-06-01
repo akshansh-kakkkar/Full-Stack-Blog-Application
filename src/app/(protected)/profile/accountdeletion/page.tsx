@@ -18,6 +18,22 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const router = useRouter()
+  const  sendDeleteEmail = async ()=>{
+    try{
+        const response = await fetch('/api/security/deleteaccount', {
+            method :"POST",
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({
+                email : session?.user?.email
+            })
+        })
+    }
+    catch(error){
+        toast.error("Something went wrong")
+    }
+  }
   const deleteUser = async () => {
     if (!userId) return;
     try {
@@ -30,6 +46,7 @@ export default function Page() {
         toast.error("Something went wrong");
         return;
       }
+     await sendDeleteEmail()
       toast.success(
         "Account Deleted Successfully. We are sad to see you go :(",
       );
