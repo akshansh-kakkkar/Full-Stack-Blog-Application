@@ -20,6 +20,7 @@ const jetBrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 export default function Avatar() {
+  const [isDraging, setIsDraging] = useState(false);
   const convertToBase64 = (file: File) => {
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
@@ -70,7 +71,9 @@ export default function Avatar() {
         method: "DELETE",
       });
       if (!response.ok) {
-        toast.error("Failed to remove avatar. Try Refreshing this is not my fault");
+        toast.error(
+          "Failed to remove avatar. Try Refreshing this is not my fault",
+        );
         return;
       }
       setPreview("");
@@ -119,7 +122,7 @@ export default function Avatar() {
       }
       toast.success(
         <div>
-          <span>Avatar Uploaded Successfully{" "}</span>
+          <span>Avatar Uploaded Successfully </span>
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -137,6 +140,20 @@ export default function Avatar() {
       setLoading(false);
       setActionFile(null);
     }
+  };
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    const imageUrl = URL.createObjectURL(file);
+    const maxSize = 2 * 1024 * 1024;
+    if(!file) return;
+    if (file.size > maxSize) {
+      toast.error("Image must be less than 2 mb.");
+      return;
+    }
+    setPreview(imageUrl);
+    fileUpload(file);
   };
   return (
     <div>
@@ -229,10 +246,18 @@ export default function Avatar() {
                   fileInputRef.current?.click();
                 }
               }}
-              className={`${loading ? "cursor-not-allowed opacity-60 border-gray-300" : "cursor-pointer hover:border-[#00687A] border-[#C6C6CD]"} flex flex-col  justify-center w-full   border-dashed md:h-[40vh] p-12 gap-4 items-center rounded-xl  transition-all duration-300  border-4 `}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e)=> {setIsDraging(false); handleDrop(e)}}
+              onDragEnter={() => setIsDraging(true)}
+              onDragLeave={() => setIsDraging(false)}   
+              className={`${loading ? "cursor-not-allowed opacity-60 border-gray-300" : "cursor-pointer hover:border-[#00687A] border-[#C6C6CD]"} flex flex-col  justify-center w-full   border-dashed md:h-[40vh] p-12 gap-4 items-center rounded-xl  transition-all duration-300  border-4 ${isDraging ? "border-[#00687A] bg-[#F0FAFC]" : "border-[#C6C6CD]"} `}
             >
               <div className="p-4 bg-[#E6E8EA] rounded-full">
-                <CloudUpload size={64} className="text-[#76777D]  " />
+                {isDraging ? (
+                  <Upload size={64} className="text-[#00687A]" />
+                ) : (
+                  <CloudUpload size={64} className="text-[#76777D]  " />
+                )}
               </div>
               <div className={`flex justify-center items-center flex-col `}>
                 <div
