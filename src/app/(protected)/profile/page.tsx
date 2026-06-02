@@ -6,6 +6,7 @@ import Image from "next/image";
 import { User } from "../../Types/index";
 import { useEffect, useState } from "react";
 import { Mail, MapPin } from "lucide-react";
+import BioModal from "./components/BioModel";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -20,7 +21,7 @@ const JetBrains = JetBrains_Mono({
 export default function overView() {
   const [user, setUser] = useState(null);
   const { data: session } = useSession();
-
+  const [showbioModal, setShowbioModal] = useState(false)
   const userId = session?.user?.id;
   useEffect(() => {
     fetch(`/api/users/${userId}`)
@@ -66,10 +67,12 @@ export default function overView() {
               {session?.user?.name}
             </h1>
             <p
-              className={`line-clamp-2 text-md break-words w-180 ${libretnusSans.className} text-[#45464D]`}
+            onClick={()=> setShowbioModal(true)}
+              className={`line-clamp-2 text-md cursor-pointer break-words w-180 ${libretnusSans.className} text-[#45464D]`}
             >
               {user?.bio || "Bio Not Available"}
             </p>
+            <BioModal open={showbioModal} bio={user?.bio} onClose={()=>setShowbioModal(false)} />
             <div className={`${JetBrains.className} flex gap-8 text-[#76777D]`}>
             <div className="flex gap-2">
               <span>
