@@ -24,7 +24,7 @@ const SideBar = () => {
           <span>
             <SquareMenu />
           </span>
-          <span>Dashboard</span>
+          <span>Main Menu</span>
         </div>
         <div className="ml-12 mt-6">
           <Link
@@ -40,8 +40,8 @@ const SideBar = () => {
         </div>
                 <div className="ml-12 mt-2">
           <Link
-            href="/dashboard"
-            className={`${pathName === "/posts" ? "w-[185px]  rounded-lg p-2 text-white bg-[#00687A]" : "hover:bg-accent"} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
+            href="/dashboard/create-post"
+            className={`${pathName === "/dashboard/create-post" ? "w-[185px]  rounded-lg p-2 text-white bg-[#00687A]" : "hover:bg-accent"} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
           >
             <span>
               <StickyNotePlus />
@@ -52,8 +52,8 @@ const SideBar = () => {
         </div>
                         <div className="ml-12 mt-2">
           <Link
-            href="/my-posts"
-            className={`${pathName === "/posts" ? "w-[185px]  rounded-lg p-2 text-white bg-[#00687A]" : "hover:bg-accent"} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
+            href="/dashboard/post"
+            className={`${pathName === "/dashboard/post" ? "w-[185px]  rounded-lg p-2 text-white bg-[#00687A]" : "hover:bg-accent"} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
           >
             <span>
               <FilesIcon />
@@ -64,8 +64,8 @@ const SideBar = () => {
         </div>
                         <div className="ml-12 mt-2">
           <Link
-            href="/dashboard"
-            className={`${pathName === "/posts" ? "w-[185px]  rounded-lg p-2 text-white bg-[#00687A]" : "hover:bg-accent"} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
+            href="/dashboard/analytics"
+            className={`${pathName === "/dashbaord/analytics" ? "w-[185px]  rounded-lg p-2 text-white bg-[#00687A]" : "hover:bg-accent"} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
           >
             <span>
               <ChartBarBigIcon />
