@@ -7,7 +7,7 @@ export default function layout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="flex-1 flex flex-col">
       {herosection}
       {children}
     </div>

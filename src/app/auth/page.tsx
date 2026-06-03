@@ -9,6 +9,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, signUp } from "@/lib/auth-client";
 import { motion } from "framer-motion";
 
+import { Suspense } from "react";
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "600"],
@@ -18,7 +20,7 @@ const lato = Lato({
   weight: ["400", "700"],
 });
 
-export default function Page() {
+function AuthContent() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -169,13 +171,13 @@ export default function Page() {
   return (
     <>
       {switchLoading ? (
-        <div className="flex items-center  justify-center min-h-screen ">
+        <div className="flex items-center justify-center flex-1 ">
           <div className=" w-full lg:w-[67vw]  h-[650px] rounded-md bg-[#F7F9FB] drop-shadow-lg flex items-center justify-center ">
             <Loader2 className="animate-spin text-[#00687A] " size={64} />
           </div>
         </div>
       ) : (
-        <div className=" flex h-full mt-8 mb-8 items-center min-h-[91.4427vh] justify-center">
+        <div className="flex h-full mt-8 mb-8 items-center flex-1 justify-center">
           <div className="flex flex-col md:flex-row w-full  lg:w-[67vw] mx-5 sm:mx-0 h-full overflow-hidden  justify-center rounded-md bg-[#F7F9FB] drop-shadow-lg">
             <div className="relative hidden md:block rounded-l-lg z-10 w-[33vw] overflow-hidden">
               <div className="opacity-50 absolute inset-0 bg-[url('/images/auth.jpeg')] bg-cover bg-center "></div>
@@ -646,5 +648,13 @@ export default function Page() {
         </div>
       )}
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="flex-1 flex justify-center items-center"><Loader2 className="animate-spin text-[#00687A]" size={64} /></div>}>
+      <AuthContent />
+    </Suspense>
   );
 }

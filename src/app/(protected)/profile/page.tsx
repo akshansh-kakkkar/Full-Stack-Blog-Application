@@ -18,7 +18,7 @@ const JetBrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 export default function overView() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   const { data: session } = useSession();
   const [showbioModal, setShowbioModal] = useState(false);
   const userId = session?.user?.id;
@@ -74,6 +74,7 @@ export default function overView() {
             <BioModal
               open={showbioModal}
               bio={user?.bio}
+              name={session?.user?.name || ""}
               onClose={() => setShowbioModal(false)}
             />
             <div

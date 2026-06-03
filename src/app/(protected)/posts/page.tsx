@@ -15,7 +15,7 @@ export default async function PostPage(){
     const data = await getPosts();
 
     return(
-        <div className='flex flex-col justify-center h-screen items-center'>
+        <div className='flex flex-col justify-center flex-1 items-center'>
         
             <h1 className={`${LibreSans.className} text-4xl p-5`}>Posts</h1>
             <div className='flex gap-22 items-center h-full w-full justify-center '>

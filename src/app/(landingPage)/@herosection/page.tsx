@@ -6,11 +6,14 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { Suspense } from "react";
+
 const LibertinusSerif = Libertinus_Serif({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
-export default function Page() {
+
+function HeroContent() {
   const searchParams = useSearchParams();
   useEffect(() => {
     const toastType = searchParams.get("toast");
@@ -107,7 +110,7 @@ export default function Page() {
   }, []);
   return (
     <div
-      className={`flex flex-col gap-8 p-5 via-white via-80% min-h-screen justify-center items-center bg-[#f7fbfc] `}
+      className={`flex flex-col gap-8 p-5 via-white via-80% flex-1 justify-center items-center bg-[#f7fbfc] `}
     >
       <div
         className={`${LibertinusSerif.className} font-bold text-6xl text-center `}
@@ -151,5 +154,13 @@ export default function Page() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="flex-1 bg-[#f7fbfc]"></div>}>
+      <HeroContent />
+    </Suspense>
   );
 }
