@@ -16,7 +16,7 @@ const SideBar = () => {
   const router = useRouter();
   const pathName = usePathname();
   return (
-    <div className="w-[280px]  md:block hidden fixed left-0 top-[82px]  border-r bg-white h-[90vh]">
+    <div className="w-[280px]  xl:block hidden fixed left-0 top-[82px]  border-r bg-white h-[90vh]">
       <div className="flex flex-col gap-2">
         <div
           className={`mt-12 ml-7 text-lg text-[#76777D] items-center capitalize  uppercase flex gap-3 ${Libretinus.className}`}

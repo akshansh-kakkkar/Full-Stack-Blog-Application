@@ -30,7 +30,7 @@ export default function AppDrawer() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 z-30 bg-white border p-2 block rounded-full shadow-lg md:hidden left-5"
+        className="fixed bottom-5 z-30 bg-white border p-2 block rounded-full shadow-lg xl:hidden left-5"
       >
         <LayoutDashboard size={36} />
       </button>

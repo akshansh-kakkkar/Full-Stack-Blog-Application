@@ -9,7 +9,7 @@ export default function ({ children }: { children: React.ReactNode }) {
             <SideBar />
             <AppDrawer />
             <MantineProvider>
-            <main className=" md:ml-[280px] min-h-screen w-full">
+            <main className=" xl:ml-[280px] min-h-screen w-full">
                 {children}
             </main>
            </MantineProvider> 
