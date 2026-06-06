@@ -7,6 +7,7 @@ import EditorToolBar from "../Toolbar/EditorToolbar";
 import Highlight from "@tiptap/extension-highlight";
 import BubbleMenu from "../Editor/BubbleMenu"
 import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
 
 interface Props {
   content: string;
@@ -23,6 +24,10 @@ export default function TipTapEditor({ content, onChange }: Props) {
       Placeholder.configure({
         placeholder: 'add something here...',
       }),
+      Link.configure({
+        openOnClick : false,
+        autolink : true
+      })
     ],
     content,
 

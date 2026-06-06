@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,55 +7,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Visibility {
-  PUBLIC
-  PRIVATE
-  UNLISTED
-}
-
 model User {
-  id            String        @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String
-  email         String        @unique
-  emailVerified Boolean       @default(false)
-  image         String?
+  email         String       @unique
   password      String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  posts         Post[]
-  likes         Like[]
-  isDeleted     Boolean       @default(false)
-  deletedAt     DateTime?
-  comments      Comment[]
-  accounts      Account[]
-  github        String?
   Instagram     String?
   Linkdin       String?
-  website       String?
-  bio           String?       @db.Text
-  sessions      Session[]
+  bio           String?
+  createdAt     DateTime     @default(now())
+  emailVerified Boolean      @default(false)
+  github        String?
+  image         String?
   location      String?
-  emailupdates  emailupdate[]
-  bookMarks BookMark[]
+  updatedAt     DateTime     @updatedAt
+  website       String?
+  deletedAt     DateTime?
+  isDeleted     Boolean      @default(false)
+  accounts      Account[]
+  bookMarks     BookMark[]
+  comments      Comment[]
+  likes         Like[]
+  posts         Post[]
+  sessions      Session[]
+  emailupdates  emailupdate?
 }
 
 model Post {
-  id          Int       @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   title       String
-  publishedAt DateTime?
-  ScheduledAt DateTime?
-  coverImage String?
-  content     String @db.Text
-  likes       Like[]
-  bookMarks BookMark[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  content     String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   authorId    String
-  author      User      @relation(fields: [authorId], references: [id])
+  ScheduledAt DateTime?
+  coverImage  String?
+  isDraft     Boolean    @default(true)
+  publishedAt DateTime?
+  visibility  Visibility @default(PUBLIC)
+  bookMarks   BookMark[]
   comments    Comment[]
+  likes       Like[]
+  author      User       @relation(fields: [authorId], references: [id])
   postTags    PostTag[]
-  isDraft Boolean @default(true)
-  visibility Visibility @default(PUBLIC)
 }
 
 model PostTag {
@@ -74,12 +62,10 @@ model PostTag {
 }
 
 model Tag {
-  id    Int      @id @default(autoincrement())
+  id    Int       @id @default(autoincrement())
   name  String    @unique
   posts PostTag[]
 }
-
-
 
 model Comment {
   id        Int      @id @default(autoincrement())
@@ -87,58 +73,59 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
   postId    Int
+  author    User     @relation(fields: [authorId], references: [id])
   post      Post     @relation(fields: [postId], references: [id])
 }
 
 model BookMark {
-  id Int @id @default(autoincrement())
+  id     Int    @id @default(autoincrement())
   userId String
   postId Int
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
   @@unique([userId, postId])
 }
 
 model Like {
   id        Int      @id @default(autoincrement())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
   postId    Int
-  post      Post     @relation(fields: [postId], references: [id])
   createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, postId])
 }
 
 model Account {
   id                    String    @id @default(cuid())
-  accountId             String
-  providerId            String
-  accessToken           String?
-  refreshToken          String?
   userId                String
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
   scope                 String?
-  password              String?
+  accessToken           String?
+  accessTokenExpiresAt  DateTime?
+  accountId             String
   createdAt             DateTime  @default(now())
+  idToken               String?
+  providerId            String
+  refreshToken          String?
+  refreshTokenExpiresAt DateTime?
   updatedAt             DateTime  @updatedAt
+  password              String?
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
   id        String   @id @default(cuid())
-  token     String   @unique
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ipAddress String?
-  userAgent String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   expiresAt DateTime
+  ipAddress String?
+  token     String   @unique
+  updatedAt DateTime @updatedAt
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Verification {
@@ -152,12 +139,16 @@ model Verification {
 
 model emailupdate {
   id        String   @id @default(cuid())
-  userId    String
+  userId    String   @unique
   newEmail  String
   otp       String
   expiredAt DateTime
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  @@unique([userId])
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
 }

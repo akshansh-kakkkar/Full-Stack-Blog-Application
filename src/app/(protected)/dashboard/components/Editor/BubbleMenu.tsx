@@ -75,22 +75,6 @@ export default function EditorBubbleMenu({ editor }: Props) {
       </button>
       <button
         onClick={() => {
-          editor.chain().focus().toggleBulletList().run();
-        }}
-        className={`px-2 py-1 cursor-pointer rounded  ${editorState.isbullet ? "bg-[#00687A]/80 text-white " : "hover:bg-[#00687A]/10"}`}
-      >
-        <List />
-      </button>
-      <button
-        onClick={() => {
-          editor.chain().focus().toggleOrderedList().run();
-        }}
-        className={`px-2 py-1 cursor-pointer rounded  ${editorState.isOrdered ? "bg-[#00687A]/80 text-white " : "hover:bg-[#00687A]/10"}`}
-      >
-        <ListOrdered />
-      </button>
-      <button
-        onClick={() => {
           editor.chain().focus().toggleCodeBlock().run();
         }}
         className={`px-2 py-1 cursor-pointer rounded  ${editorState.isSnippet ? "bg-[#00687A]/80 text-white " : "hover:bg-[#00687A]/10"}`}
