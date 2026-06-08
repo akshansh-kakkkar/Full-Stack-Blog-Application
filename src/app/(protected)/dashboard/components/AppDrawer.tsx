@@ -1,9 +1,10 @@
 "use client";
 import { AnimatePresence, spring } from "framer-motion";
 import {
-    ChartBarBigIcon,
+  ChartBarBigIcon,
   FileIcon,
   LayoutDashboard,
+  Rss,
   SquareMenu,
   StickyNotePlus,
   X,
@@ -91,6 +92,23 @@ export default function AppDrawer() {
                         Dashboard
                       </span>
                     </div>
+                    <div className="flex  flex-col  justify-center items-center text-center duration-300  gap-2 text-sm transition-all">
+                      <Link
+                        href="/dashboard/feed"
+                        className={`border border-[#00687A] transition-all   duration-300 rounded-full flex  items-center text-center justify-center  bg-white shadow-lg ${pathName === "/dashboard/feed" ? "" : "hover-:bg-accent p-2"}`}
+                      >
+                        <span>
+                          <Rss
+                            className={`${pathName === "/dashboard/feed" ? " bg-[#00687A] text-white p-2 rounded-full " : "text-[#00687A] hover:bg-accent"}`}
+                            size={pathName === "/dashboard/feed" ? 54 : 32}
+                            strokeWidth={2}
+                          />
+                        </span>
+                      </Link>
+                      <span className={`${poppins.className} text-sm`}>
+                        Feed
+                      </span>
+                    </div>
                     <div className="flex flex-col  justify-center items-center text-center duration-300  gap-2 text-sm transition-all">
                       <Link
                         href="/dashboard/create-post"
@@ -127,7 +145,7 @@ export default function AppDrawer() {
                         Posts
                       </span>
                     </div>
-                                        <div className="flex flex-col  justify-center items-center text-center duration-300  gap-2 text-sm transition-all">
+                    <div className="flex flex-col  justify-center items-center text-center duration-300  gap-2 text-sm transition-all">
                       <Link
                         href="/dashboard/analytics"
                         className={`border border-[#00687A] transition-all   duration-300 rounded-full flex  items-center text-center justify-center  bg-white shadow-lg ${pathName === "/dashboard/create-post" ? "" : "hover-:bg-accent p-2"}`}

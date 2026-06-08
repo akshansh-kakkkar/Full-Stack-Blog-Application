@@ -1,5 +1,5 @@
 "use client";
-import { ChartBarBigIcon, FilesIcon, LayoutDashboard, SquareMenu, StickyNotePlus } from "lucide-react";
+import { ChartBarBigIcon, FilesIcon, LayoutDashboard, Rss, SquareMenu, StickyNotePlus } from "lucide-react";
 import { Libertinus_Sans, Poppins } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -35,6 +35,18 @@ const SideBar = () => {
               <LayoutDashboard />
             </span>
             <span>Dashboard</span>
+          </Link>
+          
+        </div>
+                <div className="ml-12 mt-2">
+          <Link
+            href="/dashboard/feed"
+            className={`${pathName === "/dashboard/feed" ? "w-[185px]  rounded-lg p-2 text-white bg-[#00687A]" : "hover:bg-accent"} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
+          >
+            <span>
+              <Rss />
+            </span>
+            <span>Feed</span>
           </Link>
           
         </div>

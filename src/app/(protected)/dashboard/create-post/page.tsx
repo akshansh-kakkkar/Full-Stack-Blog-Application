@@ -14,6 +14,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { DateTimePicker } from "@mantine/dates";
 import TipTapEditor from "../components/Editor/TitapEditor";
 import GalleryModal from "../components/modal/GalleryModal";
+import { toast } from "sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -46,6 +47,8 @@ export default function page() {
   const [suggestions, setSuggestions] = useState<
     { id: number; name: string }[]
   >([]);
+  const plainText = content.replace(/<[^>]*>/g, "").trim();
+  const charCount = plainText.length
   useEffect(() => {
     const timeOut = setTimeout(async () => {
       if (!tagInput.trim()) {
@@ -67,11 +70,11 @@ export default function page() {
   const submitPost = async (isDraft: boolean) => {
     setSubmitError(null);
     if (!title.trim()) {
-      setSubmitError("Title is required.");
+      setSubmitError(toast.error("Title is required."));
       return;
     }
     if (content.length < 10) {
-      setSubmitError("Content is too short (min 10 characters).");
+      setSubmitError(toast.error("Content is too short (min 10 characters)."));
       return;
     }
     try {
@@ -98,14 +101,17 @@ export default function page() {
       const data = await response.json();
       if (!response.ok) {
         const message =
-          data?.error?.formErrors?.[0] ||
-          data?.error?.fieldErrors
-            ? Object.values(data.error.fieldErrors ?? {}).flat().join(", ")
+          data?.error?.formErrors?.[0] || data?.error?.fieldErrors
+            ? Object.values(data.error.fieldErrors ?? {})
+                .flat()
+                .join(", ")
             : data?.error || "Something went wrong.";
-        setSubmitError(typeof message === "string" ? message : "Submission failed.");
+        setSubmitError(
+          typeof message === "string" ? message : "Submission failed.",
+        );
         return;
       }
-      router.push("/dashboard/posts");
+      router.push("/dashboard/feed");
     } catch (error) {
       console.error(error);
       setSubmitError("Network error. Please try again.");
@@ -115,10 +121,23 @@ export default function page() {
   };
   const addTags = () => {
     const trimmedInput = tagInput.trim();
-    if (!trimmedInput) return;
-    if (tags.length >= 5) return;
-    if (tags.includes(trimmedInput.toLowerCase())) return;
+    if (!trimmedInput) {
+      toast.error("Tag cannot be empty");
+      return;
+    }
+
+    if (tags.length >= 5){
+      toast.error("Maximus 5 tags are allowed.")
+      setTagInput("")
+      return;
+    };
+    if (tags.includes(trimmedInput.toLowerCase())){ 
+     toast.error("Tag already added")
+     setTagInput("")
+      return;
+    };
     setTags((prev) => [...prev, trimmedInput.toLowerCase()]);
+    toast.success("Tag added successfully.")
     setTagInput("");
   };
 
@@ -145,7 +164,7 @@ export default function page() {
             className={`${LiberSans.className} resize-none outline-none overflow-hidden border-2 lg:p-0 p-4 bg-white lg:bg-transparent rounded-lg lg:rounded-none lg:border-none font-bold w-full`}
           />
         </div>
-        <div className="flex my-8 mx-8 gap-3 items-center ">
+        <div className="flex my-8  gap-3 items-center ">
           <div className="relative">
             <input
               className="w-full border-1 border-[#00687A] px-2 rounded-sm outline-none placeholder:text-[#00687ab6] py-1 flex"
@@ -158,14 +177,6 @@ export default function page() {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   addTags();
-                }
-                if (suggestions.length > 0) {
-                  const firstTag = suggestions[0];
-                  if (!tags.includes(firstTag.name)) {
-                    setTagInput("")
-                    setSuggestions([])
-                  }
-                  addTags()
                 }
               }}
             />
@@ -184,7 +195,7 @@ export default function page() {
                       setSuggestions([]);
                     }}
                   >
-                    #{tag.name}
+                 <div className="flex gap-2">  <strong className="font-semibold text-xl">#</strong> {tag.name}</div>
                   </button>
                 ))}
               </div>
@@ -203,19 +214,22 @@ export default function page() {
         </div>
         <div className="flex flex-row mx-8 my-8 gap-2 overflow-x-auto ">
           {tags.map((tag) => (
-            <button className="flex text-white bg-[#00687A] px-2 py-1 rounded-lg items-center gap-2">
-              #{tag}{" "}
+            <button className="flex text-center justify-center text-white bg-[#00687A] px-2 py-1 rounded-lg items-center gap-2">
+                 <div className="flex gap-2 text-center justify-center items-center">  <strong className="font-semibold text-xl">#</strong> {tag}</div>
               <span className="cursor-pointer">
                 <X
                   key={tag}
                   onClick={() =>
                     setTags((prev) => prev.filter((t) => t !== tag))
                   }
-                  size={24}
+                  size={18}
                 />
               </span>
             </button>
           ))}
+        </div>
+                <div className="flex justify-end lg:mr-14 text-[#00687A] font-medium">
+          <p className={`${poppins.className}`}>{charCount} characters</p>
         </div>
         <div className="lg:mx-12">
           {images.length > 0 && (
@@ -339,22 +353,37 @@ export default function page() {
             </div>
           </div>
           <div className="flex gap-4 py-8 flex-col justify-center items-center text-center w-[360px]">
-            {submitError && (
-              <p className={`text-red-500 text-sm text-center ${poppins.className}`}>{submitError}</p>
-            )}
             <button
               onClick={() => submitPost(true)}
               disabled={submitting}
               className={`text-xl gap-2 border-2 py-6 border-[#191C1E] w-[300px] h-[40px] flex justify-center text-center items-center rounded-lg ${JetBrains.className} font-medium hover:text-white hover:bg-[#191C1E] transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              {submitting ? <Loader2 className="animate-spin w-5 h-5" /> : <>Save Draft <span><BookDashed /></span></>}
+              {submitting ? (
+                <Loader2 className="animate-spin w-5 h-5" />
+              ) : (
+                <>
+                  Save Draft{" "}
+                  <span>
+                    <BookDashed />
+                  </span>
+                </>
+              )}
             </button>
             <button
               onClick={() => submitPost(false)}
               disabled={submitting}
               className={`text-xl gap-2 border-2  text-white py-7 bg-[#191C1E] w-[300px] h-[40px] flex justify-center text-center items-center rounded-lg ${JetBrains.className} font-medium  hover:bg-[#5d5d5d]  transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              {submitting ? <Loader2 className="animate-spin w-5 h-5" /> : <>Publish Now <span><BookCheck /></span></>}
+              {submitting ? (
+                <Loader2 className="animate-spin w-5 h-5" />
+              ) : (
+                <>
+                  Publish Now{" "}
+                  <span>
+                    <BookCheck />
+                  </span>
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -443,22 +472,37 @@ export default function page() {
               )}
             </div>
             <div className="flex gap-4 py-8 flex-col justify-center items-center text-center">
-              {submitError && (
-                <p className={`text-red-500 text-sm text-center ${poppins.className}`}>{submitError}</p>
-              )}
               <button
                 onClick={() => submitPost(true)}
                 disabled={submitting}
                 className={`text-xl gap-2 border-2 py-6 border-[#191C1E] w-full h-[40px] flex justify-center text-center items-center rounded-lg ${JetBrains.className} font-medium hover:text-white hover:bg-[#191C1E] transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                {submitting ? <Loader2 className="animate-spin w-5 h-5" /> : <>Save Draft <span><BookDashed /></span></>}
+                {submitting ? (
+                  <Loader2 className="animate-spin w-5 h-5" />
+                ) : (
+                  <>
+                    Save Draft{" "}
+                    <span>
+                      <BookDashed />
+                    </span>
+                  </>
+                )}
               </button>
               <button
                 onClick={() => submitPost(false)}
                 disabled={submitting}
                 className={`text-xl gap-2 border-2  text-white py-7 bg-[#191C1E] w-full h-[40px] flex justify-center text-center items-center rounded-lg ${JetBrains.className} font-medium  hover:bg-[#5d5d5d]  transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                {submitting ? <Loader2 className="animate-spin w-5 h-5" /> : <>Publish Now <span><BookCheck /></span></>}
+                {submitting ? (
+                  <Loader2 className="animate-spin w-5 h-5" />
+                ) : (
+                  <>
+                    Publish Now{" "}
+                    <span>
+                      <BookCheck />
+                    </span>
+                  </>
+                )}
               </button>
             </div>
           </div>
