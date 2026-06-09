@@ -1,12 +1,11 @@
 "use client";
-import { Bookmark, Rss, Search } from "lucide-react";
+import { Bookmark, ChevronRight, Loader2, Rss, Search } from "lucide-react";
 import { JetBrains_Mono, Libertinus_Sans, Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
-import content from "@/components/tiptap-templates/simple/data/content.json";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["600"],
@@ -21,113 +20,133 @@ const jetbrains = JetBrains_Mono({
 
 export default function Page() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getPosts = async () => {
-      const response = await fetch("/api/posts");
-      const data = await response.json();
-      setPosts(data.posts);
+      try {
+        setLoading(true);
+        const response = await fetch("/api/posts");
+        const data = await response.json();
+        setPosts(data.posts);
+      } catch (error) {
+        return toast.error("something went wrong.");
+      } finally {
+        setLoading(false);
+      }
     };
     getPosts();
   }, []);
 
   return (
-    <div className="mt-8 px-8 flex gap-8 flex-col overflow-x-hidden">
-      <div
-        className={` gap-2 mx-12 text-4xl text-[#191C1E] mt-4 border-b-4 border-[#00687A] rounded font-bold pb-2 flex w-fit items-center ${libretinusSans.className}`}
-      >
-        <span className={``}>
-          <Rss size={40} strokeWidth={3} />
-        </span>
-        <span>Feed</span>
-      </div>
-      <div className="w-full flex mx-12 items-center">
-        <div className="flex text-lg flex-col justify-center relative  w-1/2 bg-[#F2F4F6] border  px-4 py-2 rounded-md border-[#c6c6CD] b">
-          <input
-            type="text"
-            className={`outline-none pr-10 ${libretinusSans.className} text-[#191C1E] font-medium`}
-            placeholder="Find Latest logs"
+    <>
+      {loading ? (
+        <div className="flex justify-center text-center items-center h-[85vh] ">
+          <Loader2
+            className="animate-spin flex items-center text-center justify-center  text-[#00687A]"
+            size={48}
           />
-          <button
-            type="button"
-            onClick={() => toast.success("I will make this part function soon")}
-            className="cursor-pointer absolute right-2 top-2.5 text-[#5c5c5c] "
-          >
-            <Search className="" strokeWidth={2} />
-          </button>
         </div>
-      </div>
-      <div className=" flex flex-col gap-12 mx-12 max-w-[900px] w-full">
-        <div>
-          {posts.map((post: any) => {
-            return (
-              <Link key={post.id} href={`/dashboard/feed/${post.id}`}>
-                <div className="px-4 py-4 bg-white border my-4 justify-center items-center  border-[#C6C6CD] rounded-lg ">
-                  <div className="flex justify-between gap-2 items-center ">
-                    <div className="flex gap-2 items-center">
-                      {post.author.image ? (
-                        <div className="w-[48px] h-[48px] relative rounded-xl border-2  border-[#00687A]">
-                          <Image
-                            fill
-                            sizes="48px"
-                            className="absolute rounded-lg object-cover"
-                            src={post.author.image}
-                            alt={post.author.name}
-                          />
-                        </div>
-                      ) : (
-                        <div
-                          className={`bg-[#00687A] w-[48px] h-[48px] rounded-lg text-white flex justify-center items-center text-4xl font-medium ${poppins.className}`}
-                        >
-                          {post.author.name.charAt(0).toUpperCase()}
-                        </div>
-                      )}
-                      <div className="flex flex-col ">
-                        <div
-                          className={`${libretinusSans.className} text-[#191C1E] font-semibold text-sm`}
-                        >
-                          {post.author.name}
-                        </div>
-                        <div
-                          className={`${jetbrains.className} text-gray-500 text-xs`}
-                        >
-                          {formatDistanceToNow(new Date(post.createdAt), {
-                            addSuffix: true,
-                          })}
+      ) : (
+        <div className="mt-8 px-8 flex gap-8 flex-col overflow-x-hidden">
+          <div
+            className={` gap-2 lg:mx-12 text-4xl text-[#191C1E] mt-4 border-b-4 border-[#00687A] rounded font-bold pb-2 flex w-fit items-center ${libretinusSans.className}`}
+          >
+            <span className={``}>
+              <Rss size={40} strokeWidth={3} />
+            </span>
+            <span>Feed</span>
+          </div>
+          <div className="w-full flex lg:mx-12 items-center">
+            <div className="flex text-lg flex-col justify-center w-full mr-32 mr-0 relative  lg:w-1/2  bg-[#F2F4F6] border  px-4 py-2 rounded-md border-[#c6c6CD] b">
+              <input
+                type="text"
+                className={`outline-none pr-10 ${libretinusSans.className} text-[#191C1E] font-medium`}
+                placeholder="Find Latest logs"
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  toast.success("I will make this part function soon")
+                }
+                className="cursor-pointer absolute right-2 top-2.5 text-[#5c5c5c] "
+              >
+                <Search className="" strokeWidth={2} />
+              </button>
+            </div>
+          </div>
+          <div className=" flex flex-col gap-12 lg:mx-12 max-w-[900px] w-full">
+            <div>
+              {posts.map((post: any) => {
+                return (
+                  <Link key={post.id} href={`/dashboard/feed/${post.id}`}>
+                    <div className="px-4 py-4 hover:border-2 group relative hover:border-[#00687A] transition-all duration-500 bg-white border my-4 justify-center items-center  border-[#C6C6CD] rounded-lg ">
+                      <div className="flex justify-between gap-2 items-center ">
+                        <div className="flex gap-2 items-center">
+                          {post.author.image ? (
+                            <div className="w-[48px] h-[48px] relative rounded-xl border-2  border-[#00687A]">
+                              <Image
+                                fill
+                                sizes="48px"
+                                className="absolute rounded-lg object-cover"
+                                src={post.author.image}
+                                alt={post.author.name}
+                              />
+                            </div>
+                          ) : (
+                            <div
+                              className={`bg-[#00687A] group w-[48px] h-[48px] rounded-lg text-white flex justify-center items-center text-4xl font-medium ${poppins.className}`}
+                            >
+                              {post.author.name.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <div className="flex flex-col ">
+                            <div
+                              className={`${libretinusSans.className} text-[#191C1E] font-semibold text-sm`}
+                            >
+                              {post.author.name}
+                            </div>
+                            <div
+                              className={`${jetbrains.className} text-gray-500 text-xs`}
+                            >
+                              {formatDistanceToNow(new Date(post.createdAt), {
+                                addSuffix: true,
+                              })}
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      <div
+                        className={`${libretinusSans.className} text-3xl font-bold`}
+                      >
+                        {post.title}
+                      </div>
+                      <div
+                        className=" truncate line-clamp-4 md:line-clamp [&_ul]:list-disc [&_mark]:bg-[#00687A]/80  [&_mark]:text-white [&_mark]:px-2 [&_mark]:py-1 w-full ProseMirror [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:mt-2 [&_h1]:mb-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-2 [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4  [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_pre]:bg-gray-900 [&_pre]:text-white [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:my-4 [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6"
+                        dangerouslySetInnerHTML={{ __html: post.content }}
+                      />{" "}
+                      {post.coverImage && (
+                        <div className="w-full my-5 flex justify-center items-center  rounded-lg relative h-[300px]">
+                          <Image
+                            alt={post.title || "Cover image"}
+                            fill
+                            sizes="800px"
+                            loading="eager"
+                            className="relative object-cover rounded-lg"
+                            src={post.coverImage}
+                          />
+                        </div>
+                      )}
+                      <div className="text-white  bg-[#00687A] ease-out transition-all duration-400  w-fit p-2 right-4 -translate-y-4 group-hover:translate-y-0 top-4 rounded-full flex opacity-0 group-hover:opacity-100 absolute">
+                        <ChevronRight />
+                      </div>
                     </div>
-                    <div
-                      className="bg-gray-100 transition-all duration-200 p-2  rounded-full hover:bg-gray-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        toast.error("This feature is not available yet");
-                      }}
-                    >
-                      <Bookmark />
-                    </div>
-                  </div>
-                  <div
-                    className={`${libretinusSans.className} text-3xl px-16 font-bold`}
-                  >
-                    {post.title}
-                  </div>
-                  <div
-                  className=" truncate line-clamp-6 pr-16 px-16 z-500 [&_ul]:list-disc [&_mark]:bg-[#00687A]/80  [&_mark]:text-white [&_mark]:px-2 [&_mark]:py-1 w-full ProseMirror [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:mt-2 [&_h1]:mb-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-2 [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4  [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_pre]:bg-gray-900 [&_pre]:text-white [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:my-4 [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                  />{" "}
-          {post.coverImage && (
-                                  <div className="w-[800px]  my-5 flex justify-center items-center mx-16 rounded-lg relative h-[300px]">
-                  <Image  alt={post.title || "Cover image"} fill sizes="800px" loading="eager" className="relative object-cover rounded-lg" src={post.coverImage} />
-                </div>
-          )}
-                </div>
-
-              </Link>
-            );
-          })}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }

@@ -50,7 +50,9 @@ export async function GET(
         readingTime: Math.ceil( wordCount / 200),
       },
     };
-    return NextResponse.json(fullPost);
+    return NextResponse.json({
+      post : fullPost
+    });
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong with fetching the posts" },

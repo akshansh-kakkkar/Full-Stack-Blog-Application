@@ -102,7 +102,6 @@ export async function POST(request: Request) {
         coverImage: validation.data.coverImage,
         authorId: String(session.user.id),
         visibility: validation.data.visibility ?? "PUBLIC",
-        // scheduled posts stay as drafts until the cron job publishes them
         isDraft: isScheduled ? true : (validation.data.isDraft ?? true),
         ScheduledAt: validation.data.scheduledAt ? new Date(validation.data.scheduledAt) : null,
         publishedAt: !isScheduled && !validation.data.isDraft ? new Date() : null,
