@@ -38,16 +38,17 @@ export async function GET(
     if (!Post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
-    const plainText = Post.content.replace(/[^>]*>/g, "");
-    const wordCount = plainText.trim().split(/\s+/).length
+    const plainText = Post.content.replace(/<[^>]*>/g, "").trim();
+    const wordCount = plainText.length === 0 ? 0 : plainText.split(/\s+/).length;
+    const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
 
     const fullPost = {
       ...Post,
       stats: {
         commentCount: Post.comments.length,
         likeCount: Post.likes.length,
-        wordCount: Post.content.split(" ").length,
-        readingTime: Math.ceil( wordCount / 200),
+        wordCount,
+        readingTime: `${readingTimeMinutes} min read`,
       },
     };
     return NextResponse.json({

@@ -116,7 +116,7 @@ export default function Page() {
                         </div>
                       </div>
                       <div
-                        className={`${libretinusSans.className} text-3xl font-bold`}
+                        className={`${libretinusSans.className} mt-4 text-3xl font-bold`}
                       >
                         {post.title}
                       </div>
@@ -124,7 +124,7 @@ export default function Page() {
                         className=" truncate line-clamp-4 md:line-clamp [&_ul]:list-disc [&_mark]:bg-[#00687A]/80  [&_mark]:text-white [&_mark]:px-2 [&_mark]:py-1 w-full ProseMirror [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:mt-2 [&_h1]:mb-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-2 [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4  [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_pre]:bg-gray-900 [&_pre]:text-white [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:my-4 [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6"
                         dangerouslySetInnerHTML={{ __html: post.content }}
                       />{" "}
-                      {post.coverImage && (
+                      {post.coverImage?.length > 0 && (
                         <div className="w-full my-5 flex justify-center items-center  rounded-lg relative h-[300px]">
                           <Image
                             alt={post.title || "Cover image"}

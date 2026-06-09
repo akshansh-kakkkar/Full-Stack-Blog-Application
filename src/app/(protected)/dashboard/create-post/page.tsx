@@ -87,7 +87,7 @@ export default function page() {
         body: JSON.stringify({
           title,
           content,
-          coverImage: images[0] || undefined,
+          coverImage: images,
           tags,
           visibility:
             visibility === "Private"
