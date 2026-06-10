@@ -17,6 +17,10 @@ const libretinusSans = Libertinus_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
+const poppins2 = Poppins({
+  subsets : ['latin'],
+  weight : ['400']
+})
 export default function () {
   const params = useParams();
   const id = params.id as string;
@@ -61,6 +65,7 @@ export default function () {
   const [currentImage, setCurrentImage] = useState(0);
 
   const [direction, setDirection] = useState(1);
+
   return (
     <>
       {loading || !post ? (
@@ -92,7 +97,7 @@ export default function () {
                 <div
                   className="cursor-pointer  z-35  rounded-full  bg-[#00687A] p-1 text-white"
                   onClick={() => {
-                    setDirection(-1)
+                    setDirection(-1);
                     setCurrentImage((prev) =>
                       prev === 0 ? images.length - 1 : prev - 1,
                     );
@@ -108,20 +113,20 @@ export default function () {
                       src={images[currentImage]}
                       custom={direction}
                       alt={post.title || "Post image"}
-                      transition={{duration:0.2}}
+                      transition={{ duration: 0.2 }}
                       variants={{
-                        enter : (dir : number)=>({
-                          x : dir > 0 ? 300 : -300,
-                          opacity : 0
+                        enter: (dir: number) => ({
+                          x: dir > 0 ? 300 : -300,
+                          opacity: 0,
                         }),
-                        center : {
-                          x : 0,
-                          opacity :1
+                        center: {
+                          x: 0,
+                          opacity: 1,
                         },
-                        exit : (dir : number)=> ({
-                          x : dir > 0 ? -300 : 300,
-                          opacity:0
-                        })
+                        exit: (dir: number) => ({
+                          x: dir > 0 ? -300 : 300,
+                          opacity: 0,
+                        }),
                       }}
                       initial="enter"
                       animate="center"
@@ -132,7 +137,7 @@ export default function () {
                 <div
                   className="cursor-pointer rounded-full  bg-[#00687A] p-1 text-white"
                   onClick={() => {
-                    setDirection(1)  
+                    setDirection(1);
                     setCurrentImage((prev) =>
                       prev === images.length - 1 ? 0 : prev + 1,
                     );
@@ -142,17 +147,17 @@ export default function () {
                 </div>
               </div>
             )}
-
           </div>
-            <div className="flex justify-center items-center gap-4">
-              {images.map((_, index)=>(
-                <button key={index} className={`w-2 h-2 rounded-full transition-all ${currentImage === index ? "bg-[#00687A]" : "bg-gray-300"}`}>
-
-                </button>
-              ))}
-            </div>
+          <div className="flex justify-center items-center gap-4">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-all ${currentImage === index ? "bg-[#00687A]" : "bg-gray-300"}`}
+              ></button>
+            ))}
+          </div>
           <div
-            className={`text-6xl px-5 font-bold ${libretinusSans.className} select-none border-b-2 py-2`}
+            className={`md:text-4xl sm:text-3xl text-2xl lg:text-6xl md:px-5 font-bold ${libretinusSans.className} select-none border-b-2 py-2`}
           >
             {post.title}
           </div>
@@ -160,8 +165,19 @@ export default function () {
             dangerouslySetInnerHTML={{ __html: post.content }}
             className={`${poppins.className} [&_ul]:list-disc [&_mark]:bg-[#00687A]/80 [&_mark]:text-white [&_mark]:px-2 [&_mark]:py-1 w-full ProseMirror [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:mt-2 [&_h1]:mb-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-2 [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4  [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_pre]:bg-gray-900 [&_pre]:text-white [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:my-4 [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6`}
           />
+                <div className="gap-2 my-4 overflow-x-auto flex">
+        {post.postTags.map((postTag: any) => (
+          <span
+            className={`text-sm gap-2 flex md:text-lg bg-[#00687A] text-white px-3 py-1 rounded-md ${poppins2.className}`}
+          >
+            <span>#</span> {postTag.tag.name}
+          </span>
+        ))}
+      </div>
         </div>
+        
       )}
+
     </>
   );
 }

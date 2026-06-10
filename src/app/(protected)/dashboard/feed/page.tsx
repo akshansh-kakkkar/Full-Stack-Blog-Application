@@ -17,7 +17,10 @@ const libretinusSans = Libertinus_Sans({
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
 });
-
+const poppins2 = Poppins({
+  subsets : ['latin'],
+  weight : ['400']
+})
 export default function Page() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -138,6 +141,13 @@ export default function Page() {
                       )}
                       <div className="text-white  bg-[#00687A] ease-out transition-all duration-400  w-fit p-2 right-4 -translate-y-4 group-hover:translate-y-0 top-4 rounded-full flex opacity-0 group-hover:opacity-100 absolute">
                         <ChevronRight />
+                      </div>
+                      <div className="gap-2 my-4 overflow-x-auto flex">
+                      {post.postTags.map((postTag : any)=>(
+                        <span className={`text-sm flex gap-2 md:text-lg bg-[#00687A] text-white px-3 py-1 rounded-md ${poppins2.className}`}>
+                         <span>#</span> {postTag.tag.name}
+                        </span>
+                      ))}
                       </div>
                     </div>
                   </Link>
