@@ -99,83 +99,83 @@ export default function overView() {
           user?.linkedinUrl ||
           user?.websiteUrl ||
           user?.instagramUrl) && (
-          <div className="flex flex-col gap-8">
-            <p
-              className={`${geist.className} font-semibold text-[#45464D] text-2xl`}
-            >
-              Social Links
-            </p>
-            <div className="md:flex grid grid-cols-2 md:flex-row   md:items-center gap-6">
-              {user?.github && (
-                <Link
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`transition-all col-span-1 w-30 duration-300 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
-                  href={user?.github}
-                >
-                  <span>
-                    <Image
-                      src={"/images/github.png"}
-                      alt="github"
-                      width={32}
-                      height={32}
-                    />
-                  </span>
-                  <span>GitHub</span>
-                </Link>
-              )}
-              {user?.linkedinUrl && (
-                <Link
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`transition-all col-span-1 duration-300 w-24 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
-                  href={user?.linkedinUrl}
-                >
-                  <span>
-                    <Image
-                      src={"/images/linkedin.png"}
-                      alt="github"
-                      width={32}
-                      height={32}
-                    />
-                  </span>
-                  <span>Linkedin</span>
-                </Link>
-              )}
-              {user?.instagramUrl && (
-                <Link
-                  className={`transition-all col-span-1 w-30 duration-300 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
-                  href={user?.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>
-                    <Image
-                      src={"/images/instagram.png"}
-                      alt="github"
-                      width={32}
-                      height={32}
-                    />
-                  </span>
-                  <span>Instagram</span>
-                </Link>
-              )}
-              {user?.websiteUrl && (
-                <Link
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`transition-all col-span-1 w-30 duration-300 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
-                  href={user?.websiteUrl}
-                >
-                  <span>
-                    <Globe />
-                  </span>
-                  <span>Website</span>
-                </Link>
-              )}
+            <div className="flex flex-col gap-8">
+              <p
+                className={`${geist.className} font-semibold text-[#45464D] text-2xl`}
+              >
+                Social Links
+              </p>
+              <div className="md:flex grid grid-cols-2 md:flex-row   md:items-center gap-6">
+                {user?.github && (
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`transition-all col-span-1 w-30 duration-300 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
+                    href={user?.github}
+                  >
+                    <span>
+                      <Image
+                        src={"/images/github.png"}
+                        alt="github"
+                        width={32}
+                        height={32}
+                      />
+                    </span>
+                    <span>GitHub</span>
+                  </Link>
+                )}
+                {user?.linkedinUrl && (
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`transition-all col-span-1 duration-300 w-24 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
+                    href={user?.linkedinUrl}
+                  >
+                    <span>
+                      <Image
+                        src={"/images/linkedin.png"}
+                        alt="github"
+                        width={32}
+                        height={32}
+                      />
+                    </span>
+                    <span>Linkedin</span>
+                  </Link>
+                )}
+                {user?.instagramUrl && (
+                  <Link
+                    className={`transition-all col-span-1 w-30 duration-300 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
+                    href={user?.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>
+                      <Image
+                        src={"/images/instagram.png"}
+                        alt="github"
+                        width={32}
+                        height={32}
+                      />
+                    </span>
+                    <span>Instagram</span>
+                  </Link>
+                )}
+                {user?.websiteUrl && (
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`transition-all col-span-1 w-30 duration-300 ${libretnusSans.className} flex gap-2 text-xl items-center bg-[#F2F4F6] w-fit py-1 px-2 rounded-lg border-2 border-[#C6C6CD] hover:border-[#00687A] font-bold `}
+                    href={user?.websiteUrl}
+                  >
+                    <span>
+                      <Globe />
+                    </span>
+                    <span>Website</span>
+                  </Link>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         <div className="flex flex-col gap-8">
           <p
             className={`${geist.className} font-semibold text-[#45464D] text-2xl`}

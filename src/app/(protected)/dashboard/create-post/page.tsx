@@ -27,7 +27,7 @@ const LiberSans = Libertinus_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [visibility, setVisibility] = useState("Public (default)");
   const [open, setOpen] = useState(false);
@@ -87,7 +87,7 @@ export default function page() {
         body: JSON.stringify({
           title,
           content,
-          coverImage: images,
+          coverImage: images.length > 0 ? images : undefined,
           tags,
           visibility:
             visibility === "Private"
@@ -103,8 +103,8 @@ export default function page() {
         const message =
           data?.error?.formErrors?.[0] || data?.error?.fieldErrors
             ? Object.values(data.error.fieldErrors ?? {})
-                .flat()
-                .join(", ")
+              .flat()
+              .join(", ")
             : data?.error || "Something went wrong.";
         setSubmitError(
           typeof message === "string" ? message : "Submission failed.",
@@ -126,14 +126,14 @@ export default function page() {
       return;
     }
 
-    if (tags.length >= 5){
+    if (tags.length >= 5) {
       toast.error("Maximus 5 tags are allowed.")
       setTagInput("")
       return;
     };
-    if (tags.includes(trimmedInput.toLowerCase())){ 
-     toast.error("Tag already added")
-     setTagInput("")
+    if (tags.includes(trimmedInput.toLowerCase())) {
+      toast.error("Tag already added")
+      setTagInput("")
       return;
     };
     setTags((prev) => [...prev, trimmedInput.toLowerCase()]);
@@ -195,7 +195,7 @@ export default function page() {
                       setSuggestions([]);
                     }}
                   >
-                 <div className="flex gap-2">  <strong className="font-semibold text-xl">#</strong> {tag.name}</div>
+                    <div className="flex gap-2">  <strong className="font-semibold text-xl">#</strong> {tag.name}</div>
                   </button>
                 ))}
               </div>
@@ -214,11 +214,10 @@ export default function page() {
         </div>
         <div className="flex flex-row mx-8 my-8 gap-2 overflow-x-auto ">
           {tags.map((tag) => (
-            <button className="flex text-center justify-center text-white bg-[#00687A] px-2 py-1 rounded-lg items-center gap-2">
-                 <div className="flex gap-2 text-center justify-center items-center">  <strong className="font-semibold text-xl">#</strong> {tag}</div>
+            <button key={tag} className="flex text-center justify-center text-white bg-[#00687A] px-2 py-1 rounded-lg items-center gap-2">
+              <div className="flex gap-2 text-center justify-center items-center">  <strong className="font-semibold text-xl">#</strong> {tag}</div>
               <span className="cursor-pointer">
                 <X
-                  key={tag}
                   onClick={() =>
                     setTags((prev) => prev.filter((t) => t !== tag))
                   }
@@ -228,7 +227,7 @@ export default function page() {
             </button>
           ))}
         </div>
-                <div className="flex justify-end lg:mr-14 text-[#00687A] font-medium">
+        <div className="flex justify-end lg:mr-14 text-[#00687A] font-medium">
           <p className={`${poppins.className}`}>{charCount} characters</p>
         </div>
         <div className="lg:mx-12">
@@ -378,13 +377,13 @@ export default function page() {
                 <Loader2 className="animate-spin w-5 h-5" />
               ) : (
                 <>
-                {publishedType === "scheduled" ? (
-                  <div>Schedule Now</div>
-                ) : (
-                  <div>
-                    Pulblish Now
-                  </div>
-                )}                  <span>
+                  {publishedType === "scheduled" ? (
+                    <div>Schedule Now</div>
+                  ) : (
+                    <div>
+                      Pulblish Now
+                    </div>
+                  )}                  <span>
                     <BookCheck />
                   </span>
                 </>

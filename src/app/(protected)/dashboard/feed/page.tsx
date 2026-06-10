@@ -131,7 +131,7 @@ export default function Page() {
                             fill
                             sizes="800px"
                             loading="eager"
-                            className="relative object-cover rounded-lg"
+                            className="relative border-2 border-[#00687A] object-cover rounded-lg"
                             src={post.coverImage}
                           />
                         </div>

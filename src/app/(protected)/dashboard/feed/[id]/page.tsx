@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
+import content from '@/components/tiptap-templates/simple/data/content.json';
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -44,7 +45,23 @@ export default function () {
       getSinglePost();
     }
   }, [id]);
+  const getImage = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return Array.from(doc.querySelectorAll("img")).map((img) => img.src).filter(Boolean)
+  }
+  let images: string[] = [];
+  if (post?.coverImage) {
+    images = Array.isArray(post.coverImage) ? post.coverImage : [post.coverImage];
+  } else if (post) {
+    images = getImage(post.content);
+  }
   const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    console.log("CAROUSEL DEBUG - images:", images);
+    console.log("CAROUSEL DEBUG - currentImage:", currentImage);
+    console.log("CAROUSEL DEBUG - current image URL:", images[currentImage]);
+  }, [images, currentImage]);
 
   return (
     <>
@@ -53,7 +70,7 @@ export default function () {
           <Loader2 size={48} className="text-[#00687A] animate-spin " />
         </div>
       ) : (
-        <div className="mt-12 mx-5 md:mx-12 lg:mx-42 flex gap-7 flex-col">
+        <div className="mt-12  mx-5 md:mx-12 lg:mx-42 flex gap-7 flex-col">
           <div className="flex items-center gap-2">
             <div
               className={`${jetbrains.className}  text-[#45464D] bg-[#E6E8EA] p-1 rounded-sm text-xs font-bold `}
@@ -72,28 +89,27 @@ export default function () {
             </div>
           </div>
           <div className="flex justify-center">
-            {post.coverImage?.length > 0 && (
-              <div>
-                <div onClick={() => setCurrentImage((prev) => prev === 0 ? post.coverImage.length - 1 : prev - 1)}>
+            {images.length > 0 && (
+              <div className="flex items-center overflow-x-hidden gap-4">
+                <div className="cursor-pointer" onClick={() => { console.log("LEFT"); setCurrentImage((prev) => prev === 0 ? images.length - 1 : prev - 1) }}>
                   <ChevronLeft />
                 </div>
-                <div className="relative w-200 h-100 rounded-lg">
-                  <Image
-                    className="absolute object-center select-none rounded-lg"
-                    fill
-                    src={post.coverImage}
-                    alt={post.title}
+                <div className="relative w-[60vw] max-w-[600px] h-[300px] rounded-lg">
+                  <img
+                    className="w-full h-full object-contain select-none rounded-lg"
+                    src={images[currentImage]}
+                    alt={post.title || "Post image"}
                   />
                 </div>
-                <div>
-                  <ChevronRight onClick={() => setCurrentImage((prev) => prev === post.coverImage.length - 1 ? 0 : prev + 1)} />
+                <div className="cursor-pointer" onClick={() => { console.log("RIGHT"); setCurrentImage((prev) => prev === images.length - 1 ? 0 : prev + 1) }}>
+                  <ChevronRight />
                 </div>
               </div>
             )}
           </div>
 
           <div
-            className={`text-6xl px-5 font-bold ${libretinusSans.className} border-b-2 py-2`}
+            className={`text-6xl px-5 font-bold ${libretinusSans.className} select-none border-b-2 py-2`}
           >
             {post.title}
           </div>

@@ -20,7 +20,7 @@ export default async function SinglePost({params}:{params: Promise<{id : string}
     return(
         <div key={post.id}>
             <div>
-                {post.coverImage?.length > 0 && (<Image width={500} height={400} src={post.coverImage[0]} alt={post.title || "post image"} />)}
+                {post.coverImage && post.coverImage.length > 0 && (<Image width={500} height={400} src={Array.isArray(post.coverImage) ? post.coverImage[0] : post.coverImage} alt={post.title || "post image"} />)}
             </div>
             <h1>{post.title}</h1>
 

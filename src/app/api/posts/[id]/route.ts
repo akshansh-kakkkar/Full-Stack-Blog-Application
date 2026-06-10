@@ -52,11 +52,11 @@ export async function GET(
       },
     };
     return NextResponse.json({
-      post : fullPost
+      post: fullPost
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Something went wrong with fetching the posts" },
+      { error: "Something went wrong while fetching the posts" },
       { status: 500 },
     );
   }

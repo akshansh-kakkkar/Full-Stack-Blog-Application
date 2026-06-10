@@ -41,7 +41,7 @@ model Post {
   updatedAt   DateTime   @updatedAt
   authorId    String
   ScheduledAt DateTime?
-  coverImage  String?
+  coverImage  String[]
   isDraft     Boolean    @default(true)
   publishedAt DateTime?
   visibility  Visibility @default(PUBLIC)

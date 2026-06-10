@@ -13,10 +13,9 @@ export const createPostSchema = z.object({
     content: z
         .string()
         .min(10, "content too short"),
-    coverImage: z
-        .string()
-        .url("Invalid image url")
-        .optional(),
+    coverImage: z.array(
+        z.string().
+        url()).optional(),
     isDraft: z.boolean().optional(),
     visibility: visibilitySchema.optional(),
     tags: z
@@ -39,10 +38,9 @@ export const updatePostSchema = z.object({
         .string()
         .min(10, "content too short")
         .optional(),
-    coverImage: z
-        .string()
-        .url()
-        .optional(),
+ coverImage: z.array(
+        z.string().
+        url()).optional(),
     tags: z
         .array(z.string())
         .max(5)
