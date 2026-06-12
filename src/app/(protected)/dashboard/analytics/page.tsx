@@ -6,12 +6,17 @@ import {
   Clock,
   Eye,
   Globe,
+  Link2,
   Loader2,
+  Lock,
+  LockKeyhole,
   Pencil,
   SquareChartGantt,
   ThumbsUp,
   Trash2,
   TrendingUp,
+  Unlink2,
+  UserKey,
 } from "lucide-react";
 import { Geist, JetBrains_Mono, Libertinus_Sans } from "next/font/google";
 import { useEffect, useState } from "react";
@@ -38,7 +43,7 @@ export default function Page() {
     totalReads: 0,
     avgReadTime: 0,
     draftPending: 0,
-    totalLikes : 0,
+    totalLikes: 0,
   });
   useEffect(() => {
     const getStats = async () => {
@@ -208,7 +213,7 @@ export default function Page() {
                 Drafts Pending
               </div>
               <div className={`${geist.className} text-4xl font-semibold`}>
-              {stats.draftPending ||0}
+                {stats.draftPending || 0}
               </div>
               <div className="flex gap-2 text-[#93000A]">
                 <span>
@@ -293,15 +298,16 @@ export default function Page() {
                     <div
                       className={`  col-span-1 p-4 text-center flex justify-center items-center`}
                     >
-                      <span className={`px-2 py-1 w-[100px] rounded-sm text-sm border-2  ${post.status  === "DRAFT" ? "bg-[#FEF3C7] border-[#FDE68A] text-[#B45309]" : post.status === "PUBLISHED" ? "bg-[#DCFCE7]  border-[#BBF7D0] text-[#15803D] " : post.status === "SCHEDULED" ? "bg-[#dbeafe] border-[#93C5FD]  text-[#1D4ED8]" : "bg-gray-100 border-gray-300 text-gray-700"  }`}>
+                      <span className={`px-2 font-medium py-1 w-[100px] rounded-sm text-sm border-2  ${post.status === "DRAFT" ? "bg-[#FEF3C7] border-[#FDE68A] text-[#B45309]" : post.status === "PUBLISHED" ? "bg-[#DCFCE7]  border-[#BBF7D0] text-[#15803D] " : post.status === "SCHEDULED" ? "bg-[#dbeafe] border-[#93C5FD]  text-[#1D4ED8]" : "bg-gray-100 border-gray-300 text-gray-700"}`}>
                         {post.status}
                       </span>
                     </div>
-                    <div className="col-span-1 p-4 text-center flex justify-center items-center gap-2 text-[#45464D] items-center text-center">
-                      <span>
-                        <Globe size={18} />
-                      </span>
-                      <span>{post.visibility}</span>
+                    <div className="col-span-1 font-medium p-4 flex justify-center px-4 items-center gap-2 text-[#45464D]">
+                        <span>
+                          {post.visibility === "PUBLIC" && <div className="flex items-center gap-4"><Globe size={18} /><p>Public</p></div>}
+                          {post.visibility === "PRIVATE" && <div className="flex gap-2 items-center"><LockKeyhole size={18} /><p>Private</p></div>}
+                          {post.visibility === "UNLISTED" && <div className="flex items-center gap-2"><Link2 size={18} /><p>Unlisted</p></div>}
+                        </span>
                     </div>
                     <div className="col-span-1   p-4 text-center flex justify-center items-center text-[#45464D]">
                       {new Date(post.createdAt).toLocaleDateString()}

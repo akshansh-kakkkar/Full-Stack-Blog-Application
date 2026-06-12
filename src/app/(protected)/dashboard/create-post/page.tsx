@@ -31,7 +31,7 @@ export default function Page() {
   const router = useRouter();
   const [visibility, setVisibility] = useState("Public (default)");
   const [open, setOpen] = useState(false);
-  const [scheduledAt, setScheduledAt] = useState("");
+  const [scheduledAt, setScheduledAt] = useState<Date | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [publishedType, setPublishedType] = useState<"now" | "scheduled">(
@@ -56,7 +56,6 @@ export default function Page() {
         return;
       }
       try {
-
         const response = await fetch(
           `/api/tags?search=${encodeURIComponent(tagInput)}`,
         );
@@ -72,12 +71,12 @@ export default function Page() {
     setSubmitError(null);
     if (!title.trim()) {
       setSubmitError("Title Too short");
-      toast.error("Title Too short.")
+      toast.error("Title Too short.");
       return;
     }
     if (content.length < 10) {
       setSubmitError("min 10 characters are required.");
-      toast.error("min 10 characters are required.")
+      toast.error("min 10 characters are required.");
       return;
     }
 
@@ -114,10 +113,7 @@ export default function Page() {
                 : "PUBLIC",
           status,
           scheduledAt:
-            status === "SCHEDULED"
-            
-              ? new Date(scheduledAt).toISOString()
-              : undefined,
+            status === "SCHEDULED" ? new Date(scheduledAt as any).toISOString(): undefined,
         }),
       });
       const data = await response.json();
@@ -162,6 +158,7 @@ export default function Page() {
     toast.success("Tag added successfully.");
     setTagInput("");
   };
+  console.log(scheduledAt);
 
   return (
     <div
@@ -342,6 +339,7 @@ export default function Page() {
                           setVisibility(item);
                           setOpen(false);
                         }}
+                        
                         key={item}
                       >
                         {item}
@@ -374,21 +372,19 @@ export default function Page() {
               <div>
                 {publishedType === "scheduled" && (
                   <DateTimePicker
-                    value={scheduledAt ? new Date(scheduledAt) : null}
+                    value={scheduledAt}
                     className={`text-lg ${poppins.className} w-[200px] py-2`}
                     label={"Pick Data and Time"}
                     placeholder="Pick Date and Time"
-                    onChange={(value) => {
-                      if (value) {
-                        try {
-                          setScheduledAt(new Date(value).toISOString());
-                        } catch (error) {
-                          console.error("Invalid date selected", error);
-                        }
-                      } else {
-                        setScheduledAt("");
-                      }
-                    }}
+                    minDate={new Date()}
+                    onChange={
+                      setScheduledAt
+                    }
+                    minTime={
+                      new Date(scheduledAt as any).toDateString === new Date().toDateString()
+                        ? new Date()
+                        : undefined
+                    }
                   />
                 )}
               </div>
@@ -498,7 +494,7 @@ export default function Page() {
                 className={`${publishedType === "now" ? "bg-[#00687A] text-white" : "hover:bg-accent"} transition-all duration-300 border w-[114px] py-2 px-1 cursor-pointer rounded-lg text-md`}
                 onClick={() => {
                   setPublishedType("now");
-                  setScheduledAt("");
+                  setScheduledAt(null);
                 }}
               >
                 Publish Now
@@ -511,25 +507,23 @@ export default function Page() {
               </button>
             </div>
             <div>
-              {publishedType === "scheduled" && (
-                <DateTimePicker
-                  value={scheduledAt ? new Date(scheduledAt) : null}
-                  className={`text-lg ${poppins.className} w-[200px] py-2`}
-                  label={"Pick Data and Time"}
-                  placeholder="Pick Date and Time"
-                  onChange={(value) => {
-                    if (value) {
-                      try {
-                        setScheduledAt(new Date(value).toISOString());
-                      } catch (error) {
-                        console.error("Invalid date selected", error);
-                      }
-                    } else {
-                      setScheduledAt("");
+                {publishedType === "scheduled" && (
+                  <DateTimePicker
+                    value={scheduledAt}
+                    className={`text-lg ${poppins.className} w-[200px] py-2`}
+                    label={"Pick Data and Time"}
+                    placeholder="Pick Date and Time"
+                    minDate={new Date()}
+                    onChange={
+                      setScheduledAt
                     }
-                  }}
-                />
-              )}
+                    minTime={
+                      new Date(scheduledAt as any).toDateString === new Date().toDateString()
+                        ? new Date()
+                        : undefined
+                    }
+                  />
+                )}
             </div>
             <div className="flex gap-4 py-8 flex-col justify-center items-center text-center">
               <button
