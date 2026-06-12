@@ -10,30 +10,21 @@ export async function GET(request: Request) {
 
     const now = new Date();
 
-    // Find all scheduled posts whose time has passed and are still drafts
-    const duePosts = await prisma.post.findMany({
+    const duePosts = await prisma.post.updateMany({
       where: {
-        isDraft: true,
+        status: "SCHEDULED",
         ScheduledAt: {
           lte: now,
-          not: null,
         },
+      },
+      data: {
+        status: "PUBLISHED",
+        publishedAt: now,
       },
     });
 
-    for (const post of duePosts) {
-      await prisma.post.update({
-        where: { id: post.id },
-        data: {
-          isDraft: false,
-          publishedAt: now,
-        },
-      });
-    }
-
     return NextResponse.json({
-      success: true,
-      publishedCount: duePosts.length,
+      updated : duePosts.count
     });
   } catch (error) {
     return NextResponse.json(

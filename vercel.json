@@ -3,6 +3,9 @@
         {
             "path":"/api/cron/deleted-users",
             "schedule" : "0 0 * * *"
+        },
+        {
+            "path":"/api/cron/publish-scheduled"
         }
     ]
 }

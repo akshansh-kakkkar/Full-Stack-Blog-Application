@@ -34,11 +34,14 @@ export async function GET(
         },
       },
     });
+    const session = await getSession();
 
     if (!Post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
-    const session = await getSession();
+    if(Post.status !== "PUBLISHED" && String(session?.user.id)!== Post.authorId){
+      return NextResponse.json({error : "POST not foun"}, {status : 404})
+    }
     if(session &&  String(session.user.id) !== Post.authorId){
       try{
         await prisma.postView.upsert({

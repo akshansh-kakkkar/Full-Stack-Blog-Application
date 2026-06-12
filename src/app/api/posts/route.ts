@@ -11,8 +11,8 @@
       const limit = parseInt(url.searchParams.get("limit") || "10");
       const skip = (page - 1) * limit;
       const whereClause = {
-        isDraft: false,
-        visibility: "PUBLIC" as const,
+        status: "PUBLISHED",
+        visibility: "PUBLIC" ,
         OR: [
           {
             title: {
@@ -95,17 +95,24 @@
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
       const tags = validation.data.tags || [];
-      const isScheduled = !!validation.data.scheduledAt;
+      let status = validation.data.status ?? "DRAFT";
+      if(validation.data.scheduledAt){
+        status = "SCHEDULED"
+      }else if(status !== "DRAFT"){
+        status = "PUBLISHED"
+      }
       const newPost = await prisma.post.create({
         data: {
           title: validation.data.title,
           content: validation.data.content,
           coverImage: validation.data.coverImage,
           authorId: String(session.user.id),
+          status,
+          ScheduledAt :
+          status==="SCHEDULED" ? new Date(validation.data.scheduledAt!) : null,
+          publishedAt : 
+          status === "PUBLISHED" ? new Date() : null,
           visibility: validation.data.visibility ?? "PUBLIC",
-          isDraft: isScheduled ? true : (validation.data.isDraft ?? true),
-          ScheduledAt: validation.data.scheduledAt ? new Date(validation.data.scheduledAt) : null,
-          publishedAt: !isScheduled && !validation.data.isDraft ? new Date() : null,
           postTags: {
             create: await Promise.all(
               tags.map(async (tagname) => {

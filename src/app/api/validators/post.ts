@@ -16,7 +16,12 @@ export const createPostSchema = z.object({
     coverImage: z.array(
         z.string().
         url()).optional(),
-    isDraft: z.boolean().optional(),
+    status : z.enum([
+        "DRAFT",
+        "SCHEDULED",
+        "PUBLISHED",
+        "ARCHIVED"
+    ]).optional(),
     visibility: visibilitySchema.optional(),
     tags: z
         .array(z.string())

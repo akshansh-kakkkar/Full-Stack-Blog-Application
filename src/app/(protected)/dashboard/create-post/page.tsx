@@ -31,7 +31,7 @@ export default function Page() {
   const router = useRouter();
   const [visibility, setVisibility] = useState("Public (default)");
   const [open, setOpen] = useState(false);
-  const [scheduleAt, setScheduleAt] = useState("");
+  const [scheduledAt, setScheduledAt] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [publishedType, setPublishedType] = useState<"now" | "scheduled">(
@@ -48,7 +48,7 @@ export default function Page() {
     { id: number; name: string }[]
   >([]);
   const plainText = content.replace(/<[^>]*>/g, "").trim();
-  const charCount = plainText.length
+  const charCount = plainText.length;
   useEffect(() => {
     const timeOut = setTimeout(async () => {
       if (!tagInput.trim()) {
@@ -56,6 +56,7 @@ export default function Page() {
         return;
       }
       try {
+
         const response = await fetch(
           `/api/tags?search=${encodeURIComponent(tagInput)}`,
         );
@@ -77,8 +78,22 @@ export default function Page() {
       setSubmitError(toast.error("Content is too short (min 10 characters)."));
       return;
     }
+
+    if (!isDraft && publishedType === "scheduled" && !scheduledAt) {
+      toast.error("Scheduled date and time are required.");
+      return;
+    }
+
     try {
       setSubmitting(true);
+      let status: "DRAFT" | "PUBLISHED" | "SCHEDULED";
+      if (isDraft) {
+        status = "DRAFT";
+      } else if (publishedType === "scheduled") {
+        status = "SCHEDULED";
+      } else {
+        status = "PUBLISHED";
+      }
       const response = await fetch(`/api/posts`, {
         method: "POST",
         headers: {
@@ -95,7 +110,12 @@ export default function Page() {
               : visibility === "Unlisted"
                 ? "UNLISTED"
                 : "PUBLIC",
-          isDraft,
+          status,
+          scheduledAt:
+            status === "SCHEDULED"
+            
+              ? new Date(scheduledAt).toISOString()
+              : undefined,
         }),
       });
       const data = await response.json();
@@ -103,8 +123,8 @@ export default function Page() {
         const message =
           data?.error?.formErrors?.[0] || data?.error?.fieldErrors
             ? Object.values(data.error.fieldErrors ?? {})
-              .flat()
-              .join(", ")
+                .flat()
+                .join(", ")
             : data?.error || "Something went wrong.";
         setSubmitError(
           typeof message === "string" ? message : "Submission failed.",
@@ -127,17 +147,17 @@ export default function Page() {
     }
 
     if (tags.length >= 5) {
-      toast.error("Maximus 5 tags are allowed.")
-      setTagInput("")
+      toast.error("Maximus 5 tags are allowed.");
+      setTagInput("");
       return;
-    };
+    }
     if (tags.includes(trimmedInput.toLowerCase())) {
-      toast.error("Tag already added")
-      setTagInput("")
+      toast.error("Tag already added");
+      setTagInput("");
       return;
-    };
+    }
     setTags((prev) => [...prev, trimmedInput.toLowerCase()]);
-    toast.success("Tag added successfully.")
+    toast.success("Tag added successfully.");
     setTagInput("");
   };
 
@@ -195,7 +215,11 @@ export default function Page() {
                       setSuggestions([]);
                     }}
                   >
-                    <div className="flex gap-2">  <strong className="font-semibold text-xl">#</strong> {tag.name}</div>
+                    <div className="flex gap-2">
+                      {" "}
+                      <strong className="font-semibold text-xl">#</strong>{" "}
+                      {tag.name}
+                    </div>
                   </button>
                 ))}
               </div>
@@ -214,8 +238,14 @@ export default function Page() {
         </div>
         <div className="flex flex-row mx-8 my-8 gap-2 overflow-x-auto ">
           {tags.map((tag) => (
-            <button key={tag} className="flex text-center justify-center text-white bg-[#00687A] px-2 py-1 rounded-lg items-center gap-2">
-              <div className="flex gap-2 text-center justify-center items-center">  <strong className="font-semibold text-xl">#</strong> {tag}</div>
+            <button
+              key={tag}
+              className="flex text-center justify-center text-white bg-[#00687A] px-2 py-1 rounded-lg items-center gap-2"
+            >
+              <div className="flex gap-2 text-center justify-center items-center">
+                {" "}
+                <strong className="font-semibold text-xl">#</strong> {tag}
+              </div>
               <span className="cursor-pointer">
                 <X
                   onClick={() =>
@@ -342,10 +372,21 @@ export default function Page() {
               <div>
                 {publishedType === "scheduled" && (
                   <DateTimePicker
+                    value={scheduledAt ? new Date(scheduledAt) : null}
                     className={`text-lg ${poppins.className} w-[200px] py-2`}
                     label={"Pick Data and Time"}
                     placeholder="Pick Date and Time"
-                    onChange={(e) => setScheduleAt(e.target.value)}
+                    onChange={(value) => {
+                      if (value) {
+                        try {
+                          setScheduledAt(new Date(value).toISOString());
+                        } catch (error) {
+                          console.error("Invalid date selected", error);
+                        }
+                      } else {
+                        setScheduledAt("");
+                      }
+                    }}
                   />
                 )}
               </div>
@@ -380,10 +421,9 @@ export default function Page() {
                   {publishedType === "scheduled" ? (
                     <div>Schedule Now</div>
                   ) : (
-                    <div>
-                      Pulblish Now
-                    </div>
-                  )}                  <span>
+                    <div>Publish Now</div>
+                  )}{" "}
+                  <span>
                     <BookCheck />
                   </span>
                 </>
@@ -454,7 +494,10 @@ export default function Page() {
             <div className={`${poppins.className} font-medium  flex gap-2`}>
               <button
                 className={`${publishedType === "now" ? "bg-[#00687A] text-white" : "hover:bg-accent"} transition-all duration-300 border w-[114px] py-2 px-1 cursor-pointer rounded-lg text-md`}
-                onClick={() => setPublishedType("now")}
+                onClick={() => {
+                  setPublishedType("now");
+                  setScheduledAt("");
+                }}
               >
                 Publish Now
               </button>
@@ -468,10 +511,21 @@ export default function Page() {
             <div>
               {publishedType === "scheduled" && (
                 <DateTimePicker
+                  value={scheduledAt ? new Date(scheduledAt) : null}
                   className={`text-lg ${poppins.className} w-[200px] py-2`}
                   label={"Pick Data and Time"}
                   placeholder="Pick Date and Time"
-                  onChange={(e) => setScheduleAt(e.target.value)}
+                  onChange={(value) => {
+                    if (value) {
+                      try {
+                        setScheduledAt(new Date(value).toISOString());
+                      } catch (error) {
+                        console.error("Invalid date selected", error);
+                      }
+                    } else {
+                      setScheduledAt("");
+                    }
+                  }}
                 />
               )}
             </div>
@@ -501,7 +555,9 @@ export default function Page() {
                   <Loader2 className="animate-spin w-5 h-5" />
                 ) : (
                   <>
-                    Publish Now{" "}
+                    {publishedType === "scheduled"
+                      ? "Schedule Post"
+                      : "Publish Now"}
                     <span>
                       <BookCheck />
                     </span>

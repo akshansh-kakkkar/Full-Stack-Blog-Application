@@ -208,7 +208,7 @@ export default function Page() {
                 Drafts Pending
               </div>
               <div className={`${geist.className} text-4xl font-semibold`}>
-                {formatNumber(stats.draftPending)}
+              {stats.draftPending ||0}
               </div>
               <div className="flex gap-2 text-[#93000A]">
                 <span>
@@ -293,8 +293,8 @@ export default function Page() {
                     <div
                       className={`  col-span-1 p-4 text-center flex justify-center items-center`}
                     >
-                      <span className="bg-[#BBF7D0] text-[#15803D] px-2 py-1 rounded-sm text-sm">
-                        {post.isDraft ? "Draft" : "Posted"}
+                      <span className={`px-2 py-1 w-[70px] rounded-sm text-sm border-2  ${post.isDraft ? "bg-[#FEF3C7] border-[#FDE68A] text-[#B45309]" : "bg-[#DCFCE7]  border-[#BBF7D0] text-[#15803D]"  }`}>
+                        {post.isDraft ? "Draft" : "Posted" }
                       </span>
                     </div>
                     <div className="col-span-1 p-4 text-center flex justify-center items-center gap-2 text-[#45464D] items-center text-center">
