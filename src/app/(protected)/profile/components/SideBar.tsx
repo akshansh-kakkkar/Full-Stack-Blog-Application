@@ -48,7 +48,7 @@ const SideBar = () => {
       </div>
       <div className="ml-12 mt-6">
         <Link
-          className={`${pathName === "/profile" ? "  w-[185px] bg-[#00687A]  text-white p-2  rounded-lg" : " hover:bg-accent "} p-2 rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
+          className={`${pathName === "/profile" ? "  w-[185px] bg-[#00687A]  text-white p-2  rounded-lg" : " hover:bg-accent "} p-2 w-[185px] rounded-lg flex justify-start transition-all duration-300 gap-2 items-center text-[#45464D]  text-center text-md ${poppins.className} font-medium`}
           href={"/profile"}
         >
           <span>

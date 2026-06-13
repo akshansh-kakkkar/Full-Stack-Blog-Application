@@ -31,7 +31,7 @@ export default function Page() {
   const router = useRouter();
   const [visibility, setVisibility] = useState("Public (default)");
   const [open, setOpen] = useState(false);
-  const [scheduledAt, setScheduledAt] = useState<Date | null>(null);
+  const [scheduledAt, setScheduledAt] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [publishedType, setPublishedType] = useState<"now" | "scheduled">(
@@ -113,7 +113,7 @@ export default function Page() {
                 : "PUBLIC",
           status,
           scheduledAt:
-            status === "SCHEDULED" ? new Date(scheduledAt as any).toISOString(): undefined,
+            status === "SCHEDULED" && scheduledAt ? new Date(scheduledAt).toISOString() : undefined,
         }),
       });
       const data = await response.json();
@@ -379,14 +379,7 @@ export default function Page() {
                     label={"Pick Data and Time"}
                     placeholder="Pick Date and Time"
                     minDate={new Date()}
-                    onChange={
-                      setScheduledAt
-                    }
-                    minTime={
-                      new Date(scheduledAt as any).toDateString === new Date().toDateString()
-                        ? new Date()
-                        : undefined
-                    }
+                    onChange={setScheduledAt}
                   />
                 )}
               </div>
@@ -516,14 +509,7 @@ export default function Page() {
                     label={"Pick Data and Time"}
                     placeholder="Pick Date and Time"
                     minDate={new Date()}
-                    onChange={
-                      setScheduledAt
-                    }
-                    minTime={
-                      new Date(scheduledAt as any).toDateString === new Date().toDateString()
-                        ? new Date()
-                        : undefined
-                    }
+                    onChange={setScheduledAt}
                   />
                 )}
             </div>
